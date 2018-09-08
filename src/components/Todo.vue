@@ -14,13 +14,11 @@
     props: [
       'todo',
       'config',
-      'current'
     ],
     data: function () {
       return {
         todo: this.todo,
         config: this.configl,
-        current: this.current,
         interval_id: null,
         h: '00',
         m: '00',
@@ -30,7 +28,7 @@
     methods: {
       start () {
         var _this = this
-        if (_this.$parent.current_todo) {
+        if (this.$store.getters.progressTodo) {
           _this.$emit('failActivateTodo')
           return
         }
@@ -42,16 +40,18 @@
           _this.s = _this.getSecStr(elapsedTime)
         }, 1000)
         _this.todo.status = _this.config.status['doing']
-        _this.current = _this
+        _this.$store.commit('updateCurrentTodo', _this)
         _this.$emit('activateTodo', _this.todo)
       },
       stop () {
-        this.$parent.current_todo = undefined
+        this.$store.commit('destroyCurrentTodo')
         clearInterval(this.interval_id)
         this.todo.status = this.config.status['ready']
       },
       done () {
-        this.$parent.current_todo = undefined
+        if (this.todo.status == this.config.status['doing']) {
+          this.$store.commit('destroyCurrentTodo')
+        }
         this.todo.status = this.config.status['done']
         this.$emit('doneTodo', this.todo.id)
       },

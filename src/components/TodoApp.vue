@@ -22,7 +22,7 @@
 			<h2>完了タスク一覧</h2>
 			<ul class="todo_list">
 				<li class="todo" v-for="(todo) in getDoneTodo()" :key="todo.id">
-          <done-todo :todo="todo" :config="config.todo" :current="current_todo"></done-todo>
+          <done-todo :todo="todo" :config="config.todo"></done-todo>
 				</li>
 			</ul>
 	</section>
@@ -43,7 +43,6 @@
         valid_messages: [],
         text: '',
         todos: [],
-        current_todo: null,
         config: {
           todo: {
             status: {
@@ -100,7 +99,7 @@
         var validMessages = [
           todo.name + 'を開始しました'
         ]
-        this.current_todo = todo
+        this.$store.commit('updateCurrentTodo', todo)
         this.createValidMessage(validMessages)
       },
       failActivateTodo () {
