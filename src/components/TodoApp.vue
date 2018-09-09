@@ -14,7 +14,7 @@
 			<h2>タスク一覧</h2>
 			<ul class="todo_list">
 				<li class="todo" v-for="(todo) in getDoingTodo()" :key="todo.id">
-          <todo :todo="todo" :config="config.todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></todo>
+          <todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></todo>
 				</li>
 			</ul>
 	</section>
@@ -22,7 +22,7 @@
 			<h2>完了タスク一覧</h2>
 			<ul class="todo_list">
 				<li class="todo" v-for="(todo) in getDoneTodo()" :key="todo.id">
-          <done-todo :todo="todo" :config="config.todo"></done-todo>
+          <done-todo :todo="todo"></done-todo>
 				</li>
 			</ul>
 	</section>
@@ -42,16 +42,7 @@
       return {
         valid_messages: [],
         text: '',
-        todos: [],
-        config: {
-          todo: {
-            status: {
-              'ready': 0,
-              'doing': 1,
-              'done': 2
-            }
-          }
-        }
+        todos: []
       }
     },
     methods: {
@@ -62,7 +53,7 @@
           id: index,
           name: _this.text,
           elapsed_time: 0,
-          status: _this.config.todo.status['ready']
+          status: _this.$store.getters.statusReady
         })
         this.text = ''
       },
@@ -73,7 +64,7 @@
 
         for (i; i < this.todos.length; i++) {
           todo = this.todos[i]
-          if (todo.status !== this.config.todo.status['done']) {
+          if (todo.status !== this.$store.getters.statusDone) {
             results.push(todo)
           }
         }
@@ -87,7 +78,7 @@
 
         for (i; i < this.todos.length; i++) {
           todo = this.todos[i]
-          if (todo.status === this.config.todo.status['done']) {
+          if (todo.status === this.$store.getters.statusDone) {
             results.push(todo)
           }
         }

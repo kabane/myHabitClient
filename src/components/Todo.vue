@@ -1,5 +1,5 @@
 <template>
-  <div :id="todo.id" :class="active">
+  <div :id="todo.id">
     <p>{{ todo.name }}</p>
     <p class="todo_elapsed_time">{{ this.h + ':' + this.m + ':' + this.s  }}</p>
     <button v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
@@ -12,13 +12,11 @@
   export default {
     name: 'todo',
     props: [
-      'todo',
-      'config',
+      'todo'
     ],
     data: function () {
       return {
         todo: this.todo,
-        config: this.configl,
         interval_id: null,
         h: '00',
         m: '00',
@@ -39,27 +37,27 @@
           _this.m = _this.getMinStr(elapsedTime)
           _this.s = _this.getSecStr(elapsedTime)
         }, 1000)
-        _this.todo.status = _this.config.status['doing']
+        _this.todo.status = _this.$store.getters.statusDoing
         _this.$store.commit('updateCurrentTodo', _this)
         _this.$emit('activateTodo', _this.todo)
       },
       stop () {
         this.$store.commit('destroyCurrentTodo')
         clearInterval(this.interval_id)
-        this.todo.status = this.config.status['ready']
+        this.todo.status = this.$store.getters.statusReady
       },
       done () {
-        if (this.todo.status == this.config.status['doing']) {
+        if (this.todo.status == this.$store.getters.statusDoing) {
           this.$store.commit('destroyCurrentTodo')
         }
-        this.todo.status = this.config.status['done']
+        this.todo.status = this.$store.getters.statusDone
         this.$emit('doneTodo', this.todo.id)
       },
       isDisabedStartBtn () {
-        return this.todo.status !== this.config.status['ready'] || this.todo.status == this.config.status['doing']
+        return this.todo.status !== this.$store.getters.statusReady || this.todo.status == this.$store.getters.statusDoing
       },
       isDisabedStopBtn () {
-        return this.todo.status !== this.config.status['doing']
+        return this.todo.status !== this.$store.getters.statusDoing
       },
       getHourStr (time) {
         var h = time / 3600 | 0
