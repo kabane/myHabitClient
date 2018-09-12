@@ -2,9 +2,9 @@
   <div :id="todo.id">
     <p>{{ todo.name }}</p>
     <p class="todo_elapsed_time">{{ this.h + ':' + this.m + ':' + this.s  }}</p>
-    <button v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
-    <button v-on:click="stop()" :disabled="isDisabedStopBtn()">中断</button>
-    <button v-on:click="done()">完了</button>
+    <button class="startBtn" v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
+    <button class="stopBtn" v-on:click="stop()" :disabled="isDisabedStopBtn()">中断</button>
+    <button class="doneBtn" v-on:click="done()">完了</button>
   </div>
 </template>
 

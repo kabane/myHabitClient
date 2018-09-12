@@ -49,13 +49,15 @@
       add: function () {
         var _this = this
         var index = _this.todos.length
-        this.todos.push({
+        var todo = {
           id: index,
           name: _this.text,
           elapsed_time: 0,
           status: _this.$store.getters.statusReady
-        })
+        }
+        this.todos.push(todo)
         this.text = ''
+        return todo
       },
       getDoingTodo () {
         var i = 0
