@@ -3,7 +3,7 @@
 > A Vue.js project
 
 ## 環境
-node.js: v8.9.1
+node.js: v8.9.1  
 npm: 6.2.0
 
 ## セットアップ
