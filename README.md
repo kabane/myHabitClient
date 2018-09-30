@@ -2,7 +2,11 @@
 
 > A Vue.js project
 
-## Build Setup
+## 環境
+node.js: v8.9.1
+npm: 6.2.0
+
+## セットアップ
 
 ``` bash
 # install dependencies
