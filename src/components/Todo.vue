@@ -1,5 +1,5 @@
 <template>
-  <div :id="todo.id">
+  <div :id="todo._id">
     <p>{{ todo.name }}</p>
     <p class="todo_elapsed_time">{{ this.h + ':' + this.m + ':' + this.s  }}</p>
     <button class="startBtn" v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
@@ -51,7 +51,7 @@
           this.$store.commit('destroyCurrentTodo')
         }
         this.todo.status = this.$store.getters.statusDone
-        this.$emit('doneTodo', this.todo.id)
+        this.$emit('doneTodo', this.todo._id)
       },
       isDisabedStartBtn () {
         return this.todo.status !== this.$store.getters.statusReady || this.todo.status == this.$store.getters.statusDoing

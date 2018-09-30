@@ -13,7 +13,7 @@
     <section class="todo-active">
 			<h2>タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in getDoingTodo()" :key="todo.id">
+				<li class="todo" v-for="(todo) in getDoingTodo()" :key="todo._id">
           <todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></todo>
 				</li>
 			</ul>
@@ -21,7 +21,7 @@
   <section class="todo-done">
 			<h2>完了タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in getDoneTodo()" :key="todo.id">
+				<li class="todo" v-for="(todo) in getDoneTodo()" :key="todo._id">
           <done-todo :todo="todo"></done-todo>
 				</li>
 			</ul>
@@ -32,6 +32,7 @@
 <script>
   import Todo from './Todo.vue'
   import DoneTodo from './DoneTodo.vue'
+  import axios from 'axios'
   export default {
     name: 'todo-app',
     components: {
@@ -44,6 +45,16 @@
         text: '',
         todos: []
       }
+    },
+    created: function() {
+      var _this = this
+      axios.get('http://localhost:3000/')
+      .then(function (res) {
+        var todos = res.data
+        for (var i = 0; i < todos.length; i++) {
+          _this.$set(_this.todos, i, todos[i])
+        }
+      })
     },
     methods: {
       add: function () {
@@ -63,7 +74,6 @@
         var i = 0
         var results = []
         var todo
-
         for (i; i < this.todos.length; i++) {
           todo = this.todos[i]
           if (todo.status !== this.$store.getters.statusDone) {

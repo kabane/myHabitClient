@@ -5,16 +5,16 @@ Vue.use(Vuex);
  
 export default new Vuex.Store({
   state: {
-      progress_todo: null,
-      config: {
-        todo: {
-          status: {
-            'READY': 0,
-            'DOING': 1,
-            'DONE': 2
-          }
+    progress_todo: null,
+    config: {
+      todo: {
+        status: {
+          'READY': 0,
+          'DOING': 1,
+          'DONE': 2
         }
       }
+    }
   },
   getters: {
     progressTodo (state) {
