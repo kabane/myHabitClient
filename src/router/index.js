@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/TodoApp').default
     },
     {
+      path: '/categories',
+      name: 'category',
+      component: require('@/components/Category').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
