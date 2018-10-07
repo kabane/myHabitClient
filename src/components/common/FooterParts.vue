@@ -1,9 +1,7 @@
 <template>
-  <div class="footerWrap">
-    <footer>
-        フッターだよ
-    </footer>    
-  </div>
+  <footer id="footer">
+      フッターだよ
+  </footer>    
 </template>
 
 <script>
