@@ -1,4 +1,4 @@
-# Myhabit
+# MyHabit
 
 > A Vue.js project
 
