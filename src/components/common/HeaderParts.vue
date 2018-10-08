@@ -1,6 +1,6 @@
 <template>
   <header id="header">
-      <h1>ヘッダーだよ</h1>
+      <router-link tag="h1" to="/" exact><a>ホーム</a></router-link>
       <nav>
         <ul>
           <router-link tag="li" to="/categories" exact><a>カテゴリー</a></router-link>
