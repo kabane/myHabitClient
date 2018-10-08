@@ -51,18 +51,24 @@
     },
     methods: {
       add: function () {
-        var _this = this
-        var index = _this.todos.length
-        var todo = {
-          id: index,
-          name: _this.text,
-          elapsed_time: 0,
-          status: _this.$store.getters.statusReady
-        }
-        this.$store.commit('setTodo', todo)
-        this.text = ''
+        var _this = this,
+            params = new URLSearchParams({
+              name: _this.text,
+              elapsed_time: 0,
+              status: _this.$store.getters.statusReady
+            })
 
-        return todo
+        axios.post(
+          'http://localhost:3000/todo/',
+          params,
+          {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }).then(function (res) {
+          debugger;
+          _this.$store.dispatch('getTodos')
+          _this.text = ''
+        })        
+
       },
       // Callbacks
       activateTodo (todo) {
