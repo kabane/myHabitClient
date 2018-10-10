@@ -13,15 +13,15 @@
     <section class="todo-active">
 			<h2>タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in this.$store.getters.getDoingTodo" :key="todo._id">
-          <todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></todo>
+				<li class="todo" v-for="(todo) in this.doingTodos" :key="todo._id">
+          <doing-todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
 				</li>
 			</ul>
 	</section>
   <section class="todo-done">
 			<h2>完了タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in this.$store.getters.getDoneTodo" :key="todo._id">
+				<li class="todo" v-for="(todo) in this.doneTodos" :key="todo._id">
           <done-todo :todo="todo"></done-todo>
 				</li>
 			</ul>
@@ -30,13 +30,14 @@
 </template>
 
 <script>
-  import Todo from './Todo.vue'
+  import DoingTodo from './DoingTodo.vue'
   import DoneTodo from './DoneTodo.vue'
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'todo-app',
     components: {
-      Todo,
+      DoingTodo,
       DoneTodo
     },
     data: function () {
@@ -49,6 +50,12 @@
     created: function() {
       this.$store.dispatch('getTodos')
     },
+    computed: {
+      ...mapGetters({
+        doingTodos: 'getDoingTodos',
+        doneTodos: 'getDoneTodos'
+      })
+    },
     methods: {
       add: function () {
         var _this = this,
@@ -59,16 +66,14 @@
             })
 
         axios.post(
-          'http://localhost:3000/todo/',
+          'http://localhost:3000/todos/',
           params,
           {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
           }).then(function (res) {
-          debugger;
-          _this.$store.dispatch('getTodos')
-          _this.text = ''
+            _this.$store.dispatch('getTodos')
+            _this.text = ''
         })        
-
       },
       // Callbacks
       activateTodo (todo) {

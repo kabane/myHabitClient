@@ -16,7 +16,6 @@
     ],
     data: function () {
       return {
-        todo: this.todo,
         interval_id: null,
         h: '00',
         m: '00',
