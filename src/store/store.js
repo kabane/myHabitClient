@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     progressTodo: null,
     todos: [],
+    categories: [],
     config: {
       todo: {
         status: {
@@ -31,7 +32,7 @@ export default new Vuex.Store({
     statusDone (state) {
       return state.config.todo.status['DONE']
     },
-    getDoingTodo (state, getters) {
+    getDoingTodos (state, getters) {
       var i = 0,
       results = [],
       todo,
@@ -46,7 +47,7 @@ export default new Vuex.Store({
 
       return results
     },
-    getDoneTodo (state, getters) {
+    getDoneTodos (state, getters) {
       var i = 0,
           results = [],
           todo,
@@ -61,6 +62,9 @@ export default new Vuex.Store({
 
       return results
     },
+    getCategories (state) {
+      return state.categories
+    }
   },
   mutations: {
     updateCurrentTodo (state, payload) {
@@ -71,13 +75,11 @@ export default new Vuex.Store({
     },
     setTodos (state, payload) {
       var todos = payload
-      for(var i = 0; i < todos.length; i++) {
-        state.todos.push(todos[i])
-      }
+      state.todos = todos
     },
-    setTodo (state, payload) {
-      var todo = payload
-      state.todos.push(todo)
+    setCategories (state, payload) {
+      var categories = payload
+      state.categories = categories
     }
   },
   actions: {
@@ -86,6 +88,13 @@ export default new Vuex.Store({
       .then(function (res) {
         var todos = res.data
         commit('setTodos', todos)
+      })
+    },
+    getCategories ({commit}) {
+      axios.get('http://localhost:3000/categories/')
+      .then(function (res) {
+        var categories = res.data
+        commit('setCategories', categories)
       })
     }
   }
