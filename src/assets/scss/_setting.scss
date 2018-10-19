@@ -1,0 +1,17 @@
+html{
+    font-size: 10px;
+    font-weight: 300;
+    font-family: 'Noto Sans JP', serif;
+}
+body{
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+}
+.wrap {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    z-index: 2;
+}
