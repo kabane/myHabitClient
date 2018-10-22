@@ -10,13 +10,11 @@
 
 <script>
   export default {
-    name: 'header-parts-login'
+    name: 'header-parts-signin'
   }
 </script>
 
 <style lang='scss'>
-  @import '../../assets/scss/import.scss';
-
   .siteHeader{
 
       .wrap{
@@ -26,14 +24,19 @@
       }
 
       &__copy{
-          font-size: $fontsize_s;
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        font-weight: 400;
+        font-size: 1.2rem;
       }
 
     &__nav{
       line-height: 1;
         display: flex;
 
-      @include mq( sp ){  
+       @media screen and ( max-width: 640px ){   
         width: 100%;  
         position: fixed;
         bottom: 0;
@@ -49,7 +52,7 @@
         display: flex;
         align-items: center;
 
-        @include mq( sp ){  
+         @media screen and ( max-width: 640px ){   
           width: 100%;
           justify-content: center;
           height: 60px;
@@ -72,7 +75,7 @@
 
 
       &__link{
-        @include mq( sp ){  
+         @media screen and ( max-width: 640px ){   
           width: 100%;
 
           &:not( :first-child ){
@@ -82,12 +85,11 @@
         &:not( :last-child ){
           margin-right: 40px;
 
-          @include mq( sp ){  
+           @media screen and ( max-width: 640px ){   
             margin-right: 0;
           }            
         }
       }        
-
     }
   }
 </style>
