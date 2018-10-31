@@ -26,12 +26,9 @@
         name: ''
       }
 		},
-		created: function() {
-      this.$store.dispatch('getCategories')
-		},
 		computed: {
       ...mapGetters({
-        categories: 'getCategories'
+        categories: 'categories'
       })
     },
     methods: {

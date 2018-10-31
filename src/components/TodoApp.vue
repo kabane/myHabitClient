@@ -8,6 +8,12 @@
     <section class="todo_form">
       <p>Todoを入力してください</p>
       <input v-model="text" type="text" class="todo_form_field">
+      <select v-model="category_id">
+        <option value="" selected>カテゴリー選択</option>
+        <option v-for="(category) in this.getCategories" :key="category._id" :value="category._id">
+          {{ category.name }}
+        </option>
+      </select>
       <button v-on:click="add()">作成</button>
     </section>
     <section class="todo-active">
@@ -44,16 +50,15 @@
       return {
         valid_messages: [],
         text: '',
-        todos: []
+        todos: [],
+        category_id: '',
       }
-    },
-    created: function() {
-      this.$store.dispatch('getTodos')
     },
     computed: {
       ...mapGetters({
-        doingTodos: 'getDoingTodos',
-        doneTodos: 'getDoneTodos'
+        doingTodos: 'doingTodos',
+        doneTodos: 'doneTodos',
+        getCategories: 'categories'
       })
     },
     methods: {
@@ -62,7 +67,8 @@
             params = new URLSearchParams({
               name: _this.text,
               elapsed_time: 0,
-              status: _this.$store.getters.statusReady
+              status: _this.$store.getters.statusReady,
+              category_id: _this.category_id
             })
 
         axios.post(
@@ -73,6 +79,7 @@
           }).then(function (res) {
             _this.$store.dispatch('getTodos')
             _this.text = ''
+            _this.category_id = ''
         })        
       },
       // Callbacks
