@@ -15,6 +15,17 @@
     components: {
       HeaderParts,
       FooterParts
+    },
+    created: function() {
+      var self = this
+
+      this.$store.dispatch('getTodos')
+      .then(
+        function() {
+          return self.$store.dispatch('getCategories')
+        }
+      ); 
+
     }
   }
 </script>

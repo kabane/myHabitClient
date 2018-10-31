@@ -1,12 +1,54 @@
 <template>
-  <p>カテゴリー登録してね</p>
+	<div>
+		<p>カテゴリー登録してね</p>
+		<input type="text" name="name" v-model="name">
+		<button v-on:click="add()">送信</button>
+		<div class="createdCategory">
+			<ul class="categoryList">
+				<li class="category" v-for="(category) in this.categories" :key="category._id">
+					{{ category.name }}
+				</li>
+			</ul>
+		</div>
+	</div>
 </template>
 
 <script>
-  import axios from 'axios'
+	import axios from 'axios'
+  import { mapGetters } from 'vuex'
   export default {
-    name: 'done-todo',
-    props: ['todo']
+    name: 'category',
+    components: {
+    },
+    data: function () {
+      return {
+        valid_messages: [],
+        name: ''
+      }
+		},
+		computed: {
+      ...mapGetters({
+        categories: 'categories'
+      })
+    },
+    methods: {
+        add: function () {
+            var _this = this,
+                params = new URLSearchParams({
+									name: _this.name,
+                })
+            axios.post(
+							'http://localhost:3000/categories/',
+							params,
+							{
+							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+							}).then(function (res) {
+								_this.$store.dispatch('getCategories')
+								_this.name = ''
+            })        
+
+        }
+    }
   }
 </script>
 
