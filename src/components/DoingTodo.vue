@@ -1,6 +1,7 @@
 <template>
   <div :id="todo._id">
     <p>{{ todo.name }}</p>
+    <p>{{ this.categoryName() }}</p>
     <p class="todo_elapsed_time">{{ this.h + ':' + this.m + ':' + this.s  }}</p>
     <button class="startBtn" v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
     <button class="stopBtn" v-on:click="stop()" :disabled="isDisabedStopBtn()">中断</button>
@@ -57,6 +58,11 @@
       },
       isDisabedStopBtn () {
         return this.todo.status !== this.$store.getters.statusDoing
+      },
+      categoryName () {
+        var category = this.$store.getters.categoryById(this.todo.category_id)
+
+        return category ? category.name : "カテゴリー未設定"
       },
       getHourStr (time) {
         var h = time / 3600 | 0
