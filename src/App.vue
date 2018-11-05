@@ -95,6 +95,7 @@
       letter-spacing: 0.12em;
   }
   .wrap {
+       max-width: 900px;
       width: 90%;
       margin-right: auto;
       margin-left: auto;
@@ -120,6 +121,7 @@
   }
 
   .wrap {
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
