@@ -2,7 +2,7 @@
   <footer class="siteFooter" id="footer">
       <div class="wrap">
         
-        <span class="siteFooter__copy"><span class="siteFooter__copy__name">MY HABIT</span> 気の利く上司のようなタスク管理ツール</span>
+        <span class="siteFooter__copy"><span class="siteFooter__copy__name">© Copyright MY HABIT All Rights Reserved.</span></span>
       </div>
   </footer>    
 </template>
@@ -18,8 +18,17 @@
   .siteFooter{
     margin-top: 100px;
     line-height: 1;
-      text-align: center;
-      color: #bababa;
+    text-align: center;
+    color: #bababa;
+
+
+    span{
+      @media screen and ( max-width: 640px ){
+        display: block;
+      }        
+    }
+
+
     &__copy{
       font-size: 1rem;
 
@@ -27,6 +36,10 @@
         display: inline-block;
         vertical-align: middle;
         font-family: Barlow, sans-serif;
+
+        @media screen and ( max-width: 640px ){  
+          margin-bottom: 0.5em;
+        }        
 
         &:after{
           content:"";
@@ -38,6 +51,10 @@
           margin-right: 1em;
           margin-bottom: 5px;
           margin-left: 1em;
+
+            @media screen and ( max-width: 640px ){  
+              display: none;
+            }
         }
       }
     }
