@@ -10,6 +10,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'todo',
     props: [
@@ -47,11 +48,24 @@
         this.todo.status = this.$store.getters.statusReady
       },
       done () {
-        if (this.todo.status == this.$store.getters.statusDoing) {
-          this.$store.commit('destroyCurrentTodo')
-        }
-        this.todo.status = this.$store.getters.statusDone
-        this.$emit('doneTodo', this.todo._id)
+        var _this = this,
+            url = 'http://localhost:3000/todos/'+this.todo._id,
+            params = new URLSearchParams({
+              status: _this.$store.getters.statusDone
+            })
+
+        axios.post(url, params)
+          .then(
+            function (res) {
+              // フロント側のTodoを完了状態にする
+              _this.todo.status = this.$store.getters.statusDone
+              _this.$emit('doneTodo', this.todo._id)
+            },
+            function (err, status) {
+              debugger;
+            }
+          )
+        
       },
       isDisabedStartBtn () {
         return this.todo.status !== this.$store.getters.statusReady || this.todo.status == this.$store.getters.statusDoing
