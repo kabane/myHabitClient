@@ -1,41 +1,42 @@
 <template>
-  <header id="header" class="siteHeader">
+  <header id="header" class="siteHeader siteHeader--signin">
       <div class="wrap">
-        <router-link tag="span" class="siteHeader__back" to="/" exact><a></a></router-link>
+          <h1 class="siteHeader__copy">気の利く上司のようなタスク管理ツール</h1>
+        <router-link tag="h1" class="siteHeader__logo" to="" exact><a><img src="../../assets/img/logo.svg" alt=""></a></router-link>
 
-        <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt=""></a></router-link>
-        <!-- <nav>
-          <ul>
-            <router-link tag="li" to="/categories" exact><a>カテゴリー</a></router-link>
-          </ul>
-        </nav> -->
-        <nav class="siteHeader__nav">
-            <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__task" to="/" exact>タスク比率</router-link>
-            </div>
-            <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__category" to="/" exact>カテゴリ設定</router-link>
-            </div>
-        </nav>
       </div>
   </header>    
 </template>
 
 <script>
   export default {
-    name: 'header-parts'
+    name: 'header-parts-signin'
   }
 </script>
 
 <style lang='scss'>
-
   .siteHeader{
+
+      .wrap{
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+      }
+
+      &__copy{
+        line-height: 1;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: #ffffff;
+        font-weight: 400;
+        font-size: 1.2rem;
+      }
 
     &__nav{
       line-height: 1;
         display: flex;
 
-       @media screen and ( max-width: 640px ){    
+       @media screen and ( max-width: 640px ){   
         width: 100%;  
         position: fixed;
         bottom: 0;
@@ -51,7 +52,7 @@
         display: flex;
         align-items: center;
 
-         @media screen and ( max-width: 640px ){  
+         @media screen and ( max-width: 640px ){   
           width: 100%;
           justify-content: center;
           height: 60px;
@@ -74,7 +75,7 @@
 
 
       &__link{
-        @media screen and ( max-width: 640px ){  
+         @media screen and ( max-width: 640px ){   
           width: 100%;
 
           &:not( :first-child ){
@@ -89,20 +90,6 @@
           }            
         }
       }        
-
-
-      &__task{
-          &:before{
-            background-image: url(../../assets/img/icon-taskpercentage.svg);
-          }
-      }
-
-      
-      &__category{
-          &:before{
-            background-image: url(../../assets/img/icon-category.svg);
-          }
-      }
     }
   }
 </style>
