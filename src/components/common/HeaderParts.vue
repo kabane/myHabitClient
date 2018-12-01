@@ -14,7 +14,7 @@
               <router-link class="siteHeader__nav__task" to="/" exact>タスク比率</router-link>
             </div>
             <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__category" to="/" exact>カテゴリ設定</router-link>
+              <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
             </div>
         </nav>
       </div>
