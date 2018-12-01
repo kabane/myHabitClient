@@ -43,6 +43,25 @@
         _this.$emit('activateTodo', _this.todo)
       },
       stop () {
+        var _this = this,
+            url = 'http://localhost:3000/todos/'+this.todo._id,
+            params = new URLSearchParams({
+              status: _this.$store.getters.statusReady,
+              elapsed_time: _this.todo.elapsed_time
+            })
+debugger;
+        axios.post(url, params)
+          .then(
+            function (res) {
+              _this.todo.status = _this.$store.getters.statusReady
+              debugger;
+              _this.todo.elapsed_time = res.data.elapsed_time
+              _this.$store.commit('destroyCurrentTodo')
+            }
+          ).catch(function(e) {
+            console.log(e)
+            // バリデーションメッセージの表示
+          })    
         this.$store.commit('destroyCurrentTodo')
         clearInterval(this.interval_id)
         this.todo.status = this.$store.getters.statusReady
@@ -57,14 +76,13 @@
         axios.post(url, params)
           .then(
             function (res) {
-              // フロント側のTodoを完了状態にする
-              _this.todo.status = this.$store.getters.statusDone
-              _this.$emit('doneTodo', this.todo._id)
-            },
-            function (err, status) {
-              debugger;
+              _this.todo.status = _this.$store.getters.statusDone
+              _this.$store.commit('destroyCurrentTodo')
             }
-          )
+          ).catch(function(e) {
+            console.log(e)
+            // バリデーションメッセージの表示
+          }) 
         
       },
       isDisabedStartBtn () {
