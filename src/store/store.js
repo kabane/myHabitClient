@@ -21,7 +21,7 @@ export default new Vuex.Store({
   },
   getters: {
     progressTodo (state) {
-      return state.progress_todo
+      return state.progressTodo
     },
     statusReady (state) {
       return state.config.todo.status['READY']
@@ -80,7 +80,7 @@ export default new Vuex.Store({
     updateCurrentTodo (state, payload) {
       state.progressTodo = payload 
     },
-    destroyCurrentTodo (state) {
+    destroyProgressTodo (state) {
       state.progressTodo = null
     },
     setTodos (state, payload) {

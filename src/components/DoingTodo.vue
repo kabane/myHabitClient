@@ -19,28 +19,49 @@
     data: function () {
       return {
         interval_id: null,
-        h: '00',
-        m: '00',
-        s: '00'
+        h: this.getHourStr(this.todo.elapsed_time),
+        m: this.getMinStr(this.todo.elapsed_time),
+        s: this.getSecStr(this.todo.elapsed_time)
+      }
+    },
+    created: function() {
+      console.log(this.todo.status)
+      if (this.todo.status === this.$store.getters.statusDoing) {
+        this.start()
       }
     },
     methods: {
       start () {
         var _this = this
+
         if (this.$store.getters.progressTodo) {
           _this.$emit('failActivateTodo')
           return
+        
         }
-        _this.interval_id = setInterval(function () {
-          var elapsedTime = _this.todo.elapsed_time++
+        
+        var url = 'http://localhost:3000/todos/'+_this.todo._id,
+            params = new URLSearchParams({
+              status: _this.$store.getters.statusDoing
+            })
+        axios.post(url, params)
+          .then(
+            function (res) {
+              _this.todo.status = res.data.todo.status
+              _this.$store.commit('updateCurrentTodo', _this)
+              _this.interval_id = setInterval(function () {
+                var elapsedTime = _this.todo.elapsed_time++
 
-          _this.h = _this.getHourStr(elapsedTime)
-          _this.m = _this.getMinStr(elapsedTime)
-          _this.s = _this.getSecStr(elapsedTime)
-        }, 1000)
-        _this.todo.status = _this.$store.getters.statusDoing
-        _this.$store.commit('updateCurrentTodo', _this)
-        _this.$emit('activateTodo', _this.todo)
+                _this.h = _this.getHourStr(elapsedTime)
+                _this.m = _this.getMinStr(elapsedTime)
+                _this.s = _this.getSecStr(elapsedTime)
+              }, 1000)
+            }
+          ).catch(function(e) {
+            console.log(e)
+            // バリデーションメッセージの表示
+          })
+
       },
       stop () {
         var _this = this,
@@ -49,21 +70,20 @@
               status: _this.$store.getters.statusReady,
               elapsed_time: _this.todo.elapsed_time
             })
-debugger;
+
         axios.post(url, params)
           .then(
             function (res) {
+              clearInterval(_this.interval_id)
               _this.todo.status = _this.$store.getters.statusReady
-              debugger;
-              _this.todo.elapsed_time = res.data.elapsed_time
-              _this.$store.commit('destroyCurrentTodo')
+              _this.todo.elapsed_time = res.data.todo.elapsed_time
+              _this.$store.commit('destroyProgressTodo')
             }
           ).catch(function(e) {
             console.log(e)
             // バリデーションメッセージの表示
           })    
-        this.$store.commit('destroyCurrentTodo')
-        clearInterval(this.interval_id)
+        this.$store.commit('destroyProgressTodo')
         this.todo.status = this.$store.getters.statusReady
       },
       done () {
