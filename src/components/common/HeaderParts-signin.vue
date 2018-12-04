@@ -39,6 +39,7 @@
        @media screen and ( max-width: 640px ){   
         width: 100%;  
         position: fixed;
+        z-index: 10;
         bottom: 0;
         left: 0;
         justify-content: center;
