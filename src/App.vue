@@ -35,11 +35,9 @@
   variables
   *******************/
 
-  //////////
-
+  ///////////////////
   // fonts
-
-  //////////
+  ///////////////////
 
   $fontFamily :'Noto Sans JP', sans-serif;
   $fontFamily_en : 'Barlow', sans-serif;
@@ -54,9 +52,7 @@
 
 
   //////////////////////
-
   // layouts 
-
   /////////////////////
 
   //column
@@ -65,31 +61,39 @@
 
   //margin / padding
   $space_s : 40px;
-  $space_m : $space_s*1.5;
-  $space_l : $space_m*2;
+  $space_m : 50px;
+  $space_l : 70px;
 
   $space_s_sp : 20px;
-  $space_m_sp : $space_s_sp*1.5;
-  $space_l_sp : $space_s_sp*2.5;
+  $space_m_sp : 30px;
+  $space_l_sp : 50px;
 
 
 
   //////////////////////
-
   // fonts
-
   /////////////////////
-  $fontsize_s		: #{( 12 / 16)}em;
+  $fontsize_s		: #{( 15 / 16)}em;
   $fontsize_m		: #{( 22 / 16)}em;
-  $fontsize_m_sp	: #{( 16 / 13)}em;
+  $fontsize_m_sp	: #{( 20 / 13)}em;
   $fontsize_l		: #{( 26 / 16)}em;
-  $fontsize_l_sp	: #{( 20 / 13)}em;
+  $fontsize_l_sp	: #{( 22 / 16)}em;
   // $fontsize_xl	: #{( 24 / 16)}em;
   // $fontsize_xl_sp	: #{( 22 / 13)}em;
 
   $fontsize_index_m : $fontsize_m;
   $fontsize_index_l : $fontsize_l;
 
+
+
+  //////////////////////
+  // color
+  /////////////////////
+  $color_border: #BBBBBB;
+  $color_disabled: #bababa;
+  $color_primary: #22556E;
+  $paleblue: #F6FAFB;
+  $color_accent: #00D1E5;
 
 
   /*******************
@@ -103,8 +107,62 @@
   body{
       margin: 0;
       font-size: 1.6rem;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.1em;
   }
+  a,
+  input,
+  textarea,
+  button,
+  select,
+  option{
+    outline:none;
+  }
+
+  input,
+  textarea,
+  button,
+  select,
+  option{
+    cursor: pointer;
+    font-size: 1em;
+  }
+
+  input,
+  textarea,
+  select,
+  option{
+    padding: 25px 10px;
+    box-sizing: border-box;
+    border: 1px solid $color_border;
+    border-radius: 5px;
+    background-color: #ffffff;
+
+    @media screen and ( max-width: 640px ){
+      padding-top: 15px;
+      padding-bottom: 15px;
+    }
+
+
+    &::placeholder{
+      color: #d8d8d8;
+    }
+
+    @media screen and ( min-width: 768px ){
+      &:hover{
+        background-color: $paleblue;
+     }
+    }
+    &:focus,
+    &:active{
+      background-color: $paleblue;
+    }
+  }
+
+
+
+  /*******************
+  component
+  *******************/
   .wrap {
        max-width: 900px;
       width: 90%;
@@ -112,7 +170,152 @@
       margin-left: auto;
       position: relative;
       z-index: 2;
+  }
+
+
+
+  .appSection{
+    & + .appSection{
+      margin-top: $space_l;
+
+        @media screen and ( max-width: 640px ){
+          margin-top: $space_l_sp;
+        }
+
+    }
   }  
+
+  .appSection{
+    &__index{
+      margin-top: 0;
+      margin-bottom: $space_s;
+      font-size: $fontsize_l;
+
+        @media screen and ( max-width: 640px ){
+          margin-bottom: $space_s_sp;
+          font-size: $fontsize_l_sp;
+          align-items: flex-start;
+          flex-direction: column;
+        }         
+    }
+  }
+
+
+////////// ボタン
+
+.buttons {
+  display: flex;
+  .button{
+    width: 100px;
+    height: 40px;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    margin-right: 10px;
+    margin-left: 10px;
+
+    @media screen and ( max-width: 640px ){
+      margin-right: 5px;
+      margin-left: 5px;
+    }       
+  }
+}
+
+.button{
+  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 2px;
+  font-size: 1em;
+  color: #ffffff;
+  cursor: pointer;
+  background-color: $color_primary ;
+
+  @media screen and ( min-width: 768px ){
+    &:not( .button--disaled ):not( [disabled]):hover{
+      opacity: 0.85;
+    }
+  }
+  &:not( .button--disaled ):not( [disabled]):focus,
+  &:not( .button--disaled ):not( [disabled]):active{
+      opacity: 0.85;
+  }
+
+
+  &[disabled],
+  &--disabled{
+    background-color: $color_disabled;
+    cursor: not-allowed;
+  }
+
+  &--start,
+  &--stop,
+  &--done
+  {
+    &:before{
+      content:" ";
+      width: 1em;
+      height: 1em;
+      margin-right: 5px;
+      display: inline-block;
+      line-height: 1;
+      vertical-align: middle;
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+    }   
+  }
+
+
+  &--start{
+    &:before{
+      background-image: url(./assets/img/icon-play.svg);
+    }
+  }
+  &--stop{
+    &:before{
+      background-image: url(./assets/img/icon-delete.svg);
+    }
+  }
+  &--done{
+    &:before{
+      background-image: url(./assets/img/icon-done.svg);
+    }
+  }
+}
+
+
+
+////////// ラベル
+  .label{
+    padding: 10px;
+    line-height: 1;
+    padding: 7px 10px 7px;
+    color: #fff;
+    display: inline-block;
+    border-radius: 2px;
+    background-color: $color_accent;
+
+    &:before{
+      content:" ";
+      width: 1em;
+      height: 1em;
+      display: inline-block;
+      line-height: 1;
+      vertical-align: middle;
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: 0 0;
+    }    
+
+    &--category{
+      &:before{
+        background-image: url( ./assets/img/icon-category.svg );
+      }
+    }
+  }
 
 
   /*******************
@@ -205,5 +408,10 @@
       transform: skewY(-1deg);
     }
   }
+}
+
+
+.main{
+  margin-top: $space_l;
 }
 </style>
