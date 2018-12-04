@@ -48,7 +48,7 @@
           .then(
             function (res) {
               _this.todo.status = res.data.todo.status
-              _this.$store.commit('updateCurrentTodo', _this)
+              _this.$store.commit('updateTodo', _this)
               _this.interval_id = setInterval(function () {
                 var elapsedTime = _this.todo.elapsed_time++
 
@@ -88,22 +88,14 @@
       },
       done () {
         var _this = this,
-            url = 'http://localhost:3000/todos/'+this.todo._id,
             params = new URLSearchParams({
               status: _this.$store.getters.statusDone
             })
 
-        axios.post(url, params)
-          .then(
-            function (res) {
+        this.updateTodo(params, _this, function (res) {
               _this.todo.status = _this.$store.getters.statusDone
-              _this.$store.commit('destroyCurrentTodo')
-            }
-          ).catch(function(e) {
-            console.log(e)
-            // バリデーションメッセージの表示
-          }) 
-        
+              _this.$store.commit('destroyProgressTodo')
+            })        
       },
       isDisabedStartBtn () {
         return this.todo.status !== this.$store.getters.statusReady || this.todo.status == this.$store.getters.statusDoing
@@ -127,6 +119,17 @@
       getSecStr (time) {
         var sec = time % 60
         return sec < 10 ? '0' + sec : sec
+      },
+      updateTodo (params, ctxt, callback) {
+        var url = 'http://localhost:3000/todos/'+ctxt.todo._id
+
+        axios.post(url, params)
+          .then(
+            callback
+          ).catch(function(e) {
+            console.log(e)
+            // バリデーションメッセージの表示
+          }) 
       }
     }
   }

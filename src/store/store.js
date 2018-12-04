@@ -77,7 +77,7 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateCurrentTodo (state, payload) {
+    updateProgressTodo (state, payload) {
       state.progressTodo = payload 
     },
     destroyProgressTodo (state) {
