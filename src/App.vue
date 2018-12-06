@@ -313,7 +313,7 @@
   }
   &--stop{
     &:before{
-      background-image: url(./assets/img/icon-delete.svg);
+      background-image: url(./assets/img/icon-stop.svg);
     }
   }
   &--done{
