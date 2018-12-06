@@ -184,7 +184,6 @@ style
         @media screen and ( max-width: 480px ){
           width: 70px;
         }
-
       }
     }
 
