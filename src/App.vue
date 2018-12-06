@@ -159,19 +159,30 @@
   }
 
 
+  select{
+    padding: 0 20px;
+    -webkit-appearance: none;
+
+    background: #fff url(assets/img/icon-select.svg) right 10px center no-repeat;
+  }
+
+
 
   /*******************
   component
   *******************/
   .wrap {
-       max-width: 900px;
-      width: 90%;
-      margin-right: auto;
-      margin-left: auto;
-      position: relative;
-      z-index: 2;
+    max-width: 900px;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
   }
-
+  .wrap--tiny{
+    max-width: 600px;
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+  }
 
 
   .appSection{
@@ -189,6 +200,7 @@
     &__index{
       margin-top: 0;
       margin-bottom: $space_s;
+      font-weight: bold;
       font-size: $fontsize_l;
 
         @media screen and ( max-width: 640px ){
@@ -205,6 +217,21 @@
 
 .buttons {
   display: flex;
+  margin-right: -10px;
+  margin-left: -10px;
+  @media screen and ( max-width: 640px ){
+    margin-right: -5px;
+    margin-left: -5px;
+  }
+  @media screen and ( max-width: 320px ){
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0;
+    margin-left: 0;
+  }    
+
   .button{
     width: 100px;
     height: 40px;
@@ -215,8 +242,18 @@
     margin-left: 10px;
 
     @media screen and ( max-width: 640px ){
+      width: 88px;
       margin-right: 5px;
       margin-left: 5px;
+    }       
+    @media screen and ( max-width: 320px ){
+      width: 75%;
+      margin-right: auto;
+      margin-left: auto;
+
+      &:not( :first-child ){
+        margin-top: 10px;
+      }
     }       
   }
 }
@@ -289,8 +326,17 @@
 
 
 ////////// ラベル
+.labels{
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -5px;
+  padding: 0;
+
   .label{
-    padding: 10px;
+    margin: 5px;
+  }
+}
+  .label{
     line-height: 1;
     padding: 7px 10px 7px;
     color: #fff;
@@ -316,6 +362,8 @@
       }
     }
   }
+
+  
 
 
   /*******************
