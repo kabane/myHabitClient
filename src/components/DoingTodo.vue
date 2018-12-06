@@ -3,7 +3,7 @@
     <header class="todo__index">{{ todo.name }}</header>
     <footer class="todo__footer">
       <div class="todo__footer__col">
-        <ul class="todo__categories">
+        <ul class="todo__categories labels">
           <li class="todo__category label label--category">
             {{ this.categoryName() }}
           </li>
@@ -107,12 +107,21 @@
 </script>
 
 <style lang="scss" scoped>
+/******************
+variables
+******************/
   //////////////////////
   // color
   /////////////////////
   $color_border: #BBBBBB;
   $color_primary: #22556E;
   $paleblue: #F6FAFB;
+
+
+
+/******************
+style
+******************/
 
   .todo{
       padding: 20px;
@@ -121,7 +130,7 @@
       background-color: $paleblue;
 
       &__index{
-        font-size: 2.6rem;
+        font-size: 2.2rem;
         font-weight: bold;
 
         @media screen and ( max-width: 640px ){
@@ -144,13 +153,18 @@
           margin-top: 30px;
           align-items: flex-start;
           flex-direction: column;
-        }         
+        }      
+
+
+        &__col{
+          @media screen and ( max-width: 320px ){
+            width: 100%;
+          }           
+        }   
       }
 
       //////カテゴリラベル
       &__categories{
-        padding: 0;
-        margin: 0;
       }
 
       //////経過時間
@@ -158,10 +172,9 @@
         line-height: 1;
         margin-top: 20px;
         margin-bottom: 0;
-        letter-spacing: 0.025em;
+        letter-spacing: 0.055em;
 
         .elapsedTime{
-          letter-spacing: 0.0025em;
           font-family: 'Barlow',sans-serif;
           font-weight: bold;
         }
@@ -173,6 +186,9 @@
         @media screen and ( max-width: 640px ){
           margin-top: 20px;
         }           
+        @media screen and ( max-width: 360px ){
+          flex-direction: column;
+        }        
       }
   }
 
