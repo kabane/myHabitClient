@@ -1,6 +1,6 @@
 <template>
 	<main class="main">
-    <div class="wrap wrap--tiny">
+    <div class="wrap ">
     		<section class="appSection">
           <h2 class="appSection__index">カテゴリー登録</h2>
           		<section class="toCreateCategory childSection">
@@ -9,7 +9,7 @@
                 </h3>
                 <div class="inputRow">
                   <input type="text" name="name" placeholder="タスクの分類を入力してください（「アポ」「ランチ」…）" v-model="name">
-                  <button class="button button--primary" v-on:click="add()">送信</button>
+                  <button class="button button--primary" v-on:click="add()">追加する</button>
                 </div>
               </section>
           		<section class="createdCategory childSection">
@@ -111,7 +111,7 @@
       }
 
       .button{
-        width: 100px;
+        width: 150px;
         margin-left: 20px;
       }
     }

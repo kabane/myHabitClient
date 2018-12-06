@@ -11,7 +11,7 @@
           <div class="inputTodo__col">
             <dl class="inputTodo__row">
               <dt class="inputTodo__index">
-                To do
+                タスク
               </dt>
               <dd class="inputTodo__content">
                 <input v-model="text" type="text" class="todo_form_field" placeholder="例：朝イチのメールチェック 呑み会の店の手配 etc…">
@@ -32,7 +32,7 @@
             </dl>
           </div>
           <div class="inputTodo__col inputTodo__col--button">
-            <button class="button button--primary" v-on:click="add()">作成</button>
+            <button class="button button--primary" v-on:click="add()">追加する</button>
           </div>
         </div>
       </section>
@@ -178,7 +178,7 @@ style
 
 
       &--button{
-        width: 120px;
+        width: 150px;
         margin-left: 10px;
 
         @media screen and ( max-width: 480px ){
@@ -210,7 +210,6 @@ style
 
       input,select{
         width: 100%;
-
       }
 
       select{
