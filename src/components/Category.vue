@@ -34,22 +34,25 @@
     },
     methods: {
         add: function () {
-            var _this = this,
-                params = new URLSearchParams({
-									name: _this.name,
-                }),
-                url = this.appConfig.APIURL + 'categories'
+            var _this = this
 
-            axios.post(
-							url,
-							params,
-							{
-							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-							}).then(function (res) {
+            this.createCategory().then(function (res) {
 								_this.$store.dispatch('getCategories')
 								_this.name = ''
             })        
+        },
+        createCategory () {
+          var _this = this,
+              params = new URLSearchParams({
+                name: this.name,
+              }),
+              url = this.appConfig.APIURL + 'categories'
 
+          return axios.post(
+            url,
+            params,
+            { headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
+          )
         }
     }
   }
