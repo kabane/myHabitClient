@@ -40,15 +40,15 @@
         var _this = this
 
         if (this.$store.getters.progressTodo) {
-          _this.$emit('failActivateTodo')
+          this.$emit('failActivateTodo')
           return
         }
         
-        var url = this.appConfig.APIURL + 'todos/' + _this.todo._id,
-            params = new URLSearchParams({
-              status: _this.$store.getters.statusDoing
-            })
-        axios.post(url, params)
+        let params = new URLSearchParams({
+          status: this.$store.getters.statusDoing
+        })
+
+        this.updateTodo(params)
           .then(
             function (res) {
               _this.todo.status = res.data.todo.status
@@ -62,8 +62,7 @@
               }, 1000)
             }
           ).catch(function(e) {
-            console.log(e)
-            // バリデーションメッセージの表示
+            console.error(e)
           })
 
       },
@@ -75,7 +74,7 @@
               elapsed_time: _this.todo.elapsed_time
             })
 
-        axios.post(url, params)
+        this.updateTodo(params)
           .then(
             function (res) {
               clearInterval(_this.interval_id)
@@ -96,10 +95,14 @@
               status: _this.$store.getters.statusDone
             })
 
-        this.updateTodo(params, _this, function (res) {
-              _this.todo.status = _this.$store.getters.statusDone
-              _this.$store.commit('destroyProgressTodo')
-            })        
+        this.updateTodo(params).then(function() {
+          console.log('succes complate todo')
+          clearInterval(_this.interval_id)
+          _this.todo.status = _this.$store.getters.statusDone
+          _this.$store.commit('destroyProgressTodo')
+        }).catch(function(e) {
+          consolo.error(e)
+        })
       },
       isDisabedStartBtn () {
         return this.todo.status !== this.$store.getters.statusReady || this.todo.status == this.$store.getters.statusDoing
@@ -124,16 +127,10 @@
         var sec = time % 60
         return sec < 10 ? '0' + sec : sec
       },
-      updateTodo (params, ctxt, callback) {
-        var url = ctxt.appConfig.APIURL + 'todos/' + ctxt.todo._id
+      updateTodo (params, callback) {
+        var url = this.appConfig.APIURL + 'todos/' + this.todo._id
 
-        axios.post(url, params)
-          .then(
-            callback
-          ).catch(function(e) {
-            console.log(e)
-            // バリデーションメッセージの表示
-          }) 
+        return axios.post(url, params)
       }
     }
   }
