@@ -28,7 +28,8 @@
 		},
 		computed: {
       ...mapGetters({
-        categories: 'categories'
+        categories: 'categories',
+        appConfig: 'appConfig'
       })
     },
     methods: {
@@ -36,9 +37,11 @@
             var _this = this,
                 params = new URLSearchParams({
 									name: _this.name,
-                })
+                }),
+                url = this.appConfig.APIURL + 'categories'
+
             axios.post(
-							'http://localhost:3000/categories/',
+							url,
 							params,
 							{
 							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
