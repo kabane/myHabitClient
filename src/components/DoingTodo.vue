@@ -11,6 +11,7 @@
 
 <script>
   import axios from 'axios'
+  import { mapGetters } from 'vuex'
   export default {
     name: 'todo',
     props: [
@@ -24,8 +25,12 @@
         s: this.getSecStr(this.todo.elapsed_time)
       }
     },
+    computed: {
+      ...mapGetters({
+        appConfig: 'appConfig'
+      })
+    },
     created: function() {
-      console.log(this.todo.status)
       if (this.todo.status === this.$store.getters.statusDoing) {
         this.start()
       }
@@ -37,10 +42,9 @@
         if (this.$store.getters.progressTodo) {
           _this.$emit('failActivateTodo')
           return
-        
         }
         
-        var url = 'http://localhost:3000/todos/'+_this.todo._id,
+        var url = this.appConfig.APIURL + 'todos/' + _this.todo._id,
             params = new URLSearchParams({
               status: _this.$store.getters.statusDoing
             })
@@ -65,7 +69,7 @@
       },
       stop () {
         var _this = this,
-            url = 'http://localhost:3000/todos/'+this.todo._id,
+            url = this.appConfig.APIURL + 'todos/' + this.todo._id,
             params = new URLSearchParams({
               status: _this.$store.getters.statusReady,
               elapsed_time: _this.todo.elapsed_time
@@ -121,7 +125,7 @@
         return sec < 10 ? '0' + sec : sec
       },
       updateTodo (params, ctxt, callback) {
-        var url = 'http://localhost:3000/todos/'+ctxt.todo._id
+        var url = ctxt.appConfig.APIURL + 'todos/' + ctxt.todo._id
 
         axios.post(url, params)
           .then(

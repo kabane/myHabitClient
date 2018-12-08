@@ -58,7 +58,8 @@
       ...mapGetters({
         doingTodos: 'doingTodos',
         doneTodos: 'doneTodos',
-        getCategories: 'categories'
+        getCategories: 'categories',
+        appConfig: 'appConfig'
       })
     },
     methods: {
@@ -69,10 +70,11 @@
               elapsed_time: 0,
               status: _this.$store.getters.statusReady,
               category_id: _this.category_id
-            })
+            }),
+            url = this.appConfig.APIURL + 'todos'
 
         axios.post(
-          'http://localhost:3000/todos/',
+          url,
           params,
           {
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
