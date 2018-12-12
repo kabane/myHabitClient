@@ -181,16 +181,21 @@ style
     width: 100%;
     display: flex;
 
+    @media screen and ( max-width: 480px ){
+        flex-direction: column;
+    }      
+
     &__col{
       width: 100%;
-
 
       &--button{
         width: 150px;
         margin-left: 10px;
 
         @media screen and ( max-width: 480px ){
-          width: 70px;
+          // width: 70px;
+          margin-top: 20px;
+          margin-left: 0;
         }
       }
     }
@@ -200,9 +205,23 @@ style
       margin-bottom: 0;
       display: flex;
       align-items: center;
+
+      @media screen and ( max-width: 480px ){
+        align-items: flex-start;
+      }      
+
       &:not( :first-child ){
         margin-top: 10px;
+
+        @media screen and ( max-width: 480px ){
+          // margin-top: 0;
+          // margin-left: 5px;
+        }      
       }
+
+      @media screen and ( max-width: 480px ){
+          flex-direction: column;
+      }      
     }
 
     &__index{
@@ -210,6 +229,10 @@ style
       letter-spacing: 0.025em;
       padding-right: 10px;
       font-weight: bold;
+
+      @media screen and ( max-width: 480px ){
+          margin-bottom: 10px;
+      }       
     }
 
     &__content{
@@ -233,6 +256,11 @@ style
 
 
     &__col--button{
+
+      @media screen and ( max-width: 480px ){
+        width: 100%;
+      }      
+
 
       .button{
         width: 100%;

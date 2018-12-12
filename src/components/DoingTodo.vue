@@ -186,7 +186,7 @@ style
 
 
       &__footer{
-        margin-top: 40px;
+        margin-top: 20px;
         display: flex;
         align-items: flex-end;
         justify-content: space-between;

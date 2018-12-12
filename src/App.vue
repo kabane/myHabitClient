@@ -105,9 +105,14 @@
       font-family: 'Noto Sans JP', serif;
   }
   body{
+      padding-top: 90px;
       margin: 0;
       font-size: 1.6rem;
       letter-spacing: 0.1em;
+
+      @media screen and ( max-width: 640px ){
+        padding-top: 0px;
+      }
   }
   a,
   input,
@@ -160,7 +165,7 @@
 
 
   select{
-    padding: 0 20px;
+    padding: 0 10px;
     -webkit-appearance: none;
 
     background: #fff url(assets/img/icon-select.svg) right 10px center no-repeat;
@@ -390,12 +395,16 @@
   line-height: 1;
   display: flex;
   align-items: center;
-  position: relative;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   background: #6DB3BF;
   background-image: linear-gradient(to left bottom, #4799B7, #7DC9DC);
 
   @media screen and ( max-width: 640px ){  
-    height: 80px;
+    height: 60px;
+    position: relative;
   }
 
   .wrap {
@@ -477,5 +486,9 @@
 
 .main{
   margin-top: $space_l;
+
+  @media screen and ( max-width: 640px ){
+    margin-top: $space_l_sp;
+  }  
 }
 </style>
