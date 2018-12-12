@@ -192,7 +192,6 @@
         @media screen and ( max-width: 640px ){
           margin-top: $space_l_sp;
         }
-
     }
   }  
 
@@ -209,6 +208,10 @@
           align-items: flex-start;
           flex-direction: column;
         }         
+    }
+
+    &__footer{
+      margin-top: $space_l;
     }
   }
 
@@ -320,6 +323,19 @@
     &:before{
       background-image: url(./assets/img/icon-done.svg);
     }
+  }
+}
+
+.backlink{
+  &:before{
+    content: " ";
+    display: inline-block;
+    width: 0.618em;
+    height: 0.618em;
+    margin-right: 3px;
+    border-top: 1px solid currentColor;
+    border-left: 1px solid currentColor;
+    transform: rotate(-45deg);
   }
 }
 
