@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
- 
+import { appConfig } from '../config/app.env'
+
 Vue.use(Vuex);
  
 export default new Vuex.Store({
@@ -16,12 +17,16 @@ export default new Vuex.Store({
           'DOING': 1,
           'DONE': 2          
         }
-      }
+      },
+      app: appConfig
     }
   },
   getters: {
+    appConfig (state) {
+      return state.config.app
+    },
     progressTodo (state) {
-      return state.progress_todo
+      return state.progressTodo
     },
     statusReady (state) {
       return state.config.todo.status['READY']
@@ -77,10 +82,10 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateCurrentTodo (state, payload) {
+    updateProgressTodo (state, payload) {
       state.progressTodo = payload 
     },
-    destroyCurrentTodo (state) {
+    destroyProgressTodo (state) {
       state.progressTodo = null
     },
     setTodos (state, payload) {
@@ -93,15 +98,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    getTodos ({commit}) {;
-      return axios.get('http://localhost:3000/')
+    getTodos ({commit}) {
+      return axios.get(this.state.config.app.APIURL)
       .then(function (res) {
         var todos = res.data
         commit('setTodos', todos)
       })
     },
     getCategories ({commit}) {
-      return axios.get('http://localhost:3000/categories/')
+      return axios.get(this.state.config.app.APIURL+'categories/')
       .then(function (res) {
         var categories = res.data
         commit('setCategories', categories)

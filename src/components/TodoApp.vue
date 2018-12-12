@@ -79,25 +79,15 @@
       ...mapGetters({
         doingTodos: 'doingTodos',
         doneTodos: 'doneTodos',
-        getCategories: 'categories'
+        getCategories: 'categories',
+        appConfig: 'appConfig'
       })
     },
     methods: {
       add: function () {
-        var _this = this,
-            params = new URLSearchParams({
-              name: _this.text,
-              elapsed_time: 0,
-              status: _this.$store.getters.statusReady,
-              category_id: _this.category_id
-            })
+        var _this = this
 
-        axios.post(
-          'http://localhost:3000/todos/',
-          params,
-          {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-          }).then(function (res) {
+        this.createTodo().then(function (res) {
             _this.$store.dispatch('getTodos')
             _this.text = ''
             _this.category_id = ''
@@ -131,6 +121,24 @@
         setInterval(function () {
           this.valid_messages = []
         }, 3000)
+      },
+      createTodo () {
+        var _this = this,
+            params = new URLSearchParams({
+              name: this.text,
+              elapsed_time: 0,
+              status: this.$store.getters.statusReady,
+              category_id: this.category_id
+            }),
+            url = this.appConfig.APIURL + 'todos'
+
+        return axios.post(
+          url,
+          params,
+          {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }
+        )
       }
     }
   }

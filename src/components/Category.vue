@@ -42,25 +42,31 @@
 		},
 		computed: {
       ...mapGetters({
-        categories: 'categories'
+        categories: 'categories',
+        appConfig: 'appConfig'
       })
     },
     methods: {
         add: function () {
-            var _this = this,
-                params = new URLSearchParams({
-									name: _this.name,
-                })
-            axios.post(
-							'http://localhost:3000/categories/',
-							params,
-							{
-							headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-							}).then(function (res) {
+            var _this = this
+
+            this.createCategory().then(function (res) {
 								_this.$store.dispatch('getCategories')
 								_this.name = ''
             })        
+        },
+        createCategory () {
+          var _this = this,
+              params = new URLSearchParams({
+                name: this.name,
+              }),
+              url = this.appConfig.APIURL + 'categories'
 
+          return axios.post(
+            url,
+            params,
+            { headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
+          )
         }
     }
   }
