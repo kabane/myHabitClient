@@ -19,7 +19,7 @@
     <section class="todo-active">
 			<h2>タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in this.doingTodos" :key="todo._id">
+				<li class="todo" v-for="(todo) in this.getDoingTodos" :key="todo._id">
           <doing-todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
 				</li>
 			</ul>
@@ -27,7 +27,7 @@
   <section class="todo-done">
 			<h2>完了タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in this.doneTodos" :key="todo._id">
+				<li class="todo" v-for="(todo) in this.getDoneTodos" :key="todo._id">
           <done-todo :todo="todo"></done-todo>
 				</li>
 			</ul>
@@ -56,10 +56,11 @@
     },
     computed: {
       ...mapGetters({
-        doingTodos: 'doingTodos',
-        doneTodos: 'doneTodos',
+        getDoingTodos: 'todo/doingTodos',
+        getDoneTodos: 'todo/doneTodos',
         getCategories: 'categories',
-        appConfig: 'appConfig'
+        appConfig: 'appConfig',
+        getStatus: 'todo/status'
       })
     },
     methods: {
@@ -67,7 +68,7 @@
         var _this = this
 
         this.createTodo().then(function (res) {
-            _this.$store.dispatch('getTodos')
+            _this.$store.dispatch('todo/getTodos')
             _this.text = ''
             _this.category_id = ''
         })        
@@ -77,7 +78,7 @@
         var validMessages = [
           todo.name + 'を開始しました'
         ]
-        this.$store.commit('updateCurrentTodo', todo)
+        this.$store.commit('todo/updateCurrentTodo', todo)
         this.createValidMessage(validMessages)
       },
       failActivateTodo () {
@@ -106,7 +107,7 @@
             params = new URLSearchParams({
               name: this.text,
               elapsed_time: 0,
-              status: this.$store.getters.statusReady,
+              status: this.getStatus["READY"],
               category_id: this.category_id
             }),
             url = this.appConfig.APIURL + 'todos'

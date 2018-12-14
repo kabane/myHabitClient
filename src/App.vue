@@ -19,7 +19,7 @@
     created: function() {
       var self = this
 
-      this.$store.dispatch('getTodos')
+      this.$store.dispatch('todo/getTodos')
       .then(
         function() {
           return self.$store.dispatch('getCategories')

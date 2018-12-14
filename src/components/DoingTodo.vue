@@ -27,11 +27,12 @@
     },
     computed: {
       ...mapGetters({
-        appConfig: 'appConfig'
+        appConfig: 'appConfig',
+        getStatus: 'todo/status'
       })
     },
     created: function() {
-      if (this.todo.status === this.$store.getters.statusDoing) {
+      if (this.todo.status === this.getStatus["DOING"]) {
         this.start()
       }
     },
@@ -40,19 +41,19 @@
         var _this = this
 
         if (this.$store.getters.progressTodo) {
-          this.$emit('failActivateTodo')
+          this.$emit('todo/failActivateTodo')
           return
         }
         
         let params = new URLSearchParams({
-          status: this.$store.getters.statusDoing
+          status: this.getStatus["DOING"]
         })
 
         this.updateTodo(params)
           .then(
             function (res) {
               _this.todo.status = res.data.todo.status
-              _this.$store.commit('updateTodo', _this)
+              _this.$store.commit('todo/updateTodo', _this)
               _this.interval_id = setInterval(function () {
                 var elapsedTime = _this.todo.elapsed_time++
 
@@ -70,7 +71,7 @@
         var _this = this,
             url = this.appConfig.APIURL + 'todos/' + this.todo._id,
             params = new URLSearchParams({
-              status: _this.$store.getters.statusReady,
+              status: _this.getStatus["READY"],
               elapsed_time: _this.todo.elapsed_time
             })
 
@@ -78,37 +79,37 @@
           .then(
             function (res) {
               clearInterval(_this.interval_id)
-              _this.todo.status = _this.$store.getters.statusReady
+              _this.todo.status = _this.getStatus["READY"]
               _this.todo.elapsed_time = res.data.todo.elapsed_time
-              _this.$store.commit('destroyProgressTodo')
+              _this.$store.commit('todo/destroyProgressTodo')
             }
           ).catch(function(e) {
             console.log(e)
             // バリデーションメッセージの表示
           })    
-        this.$store.commit('destroyProgressTodo')
-        this.todo.status = this.$store.getters.statusReady
+        this.$store.commit('todo/destroyProgressTodo')
+        this.todo.status = this.getStatus["READY"]
       },
       done () {
         var _this = this,
             params = new URLSearchParams({
-              status: _this.$store.getters.statusDone
+              status: _this.getStatus["DONE"]
             })
 
         this.updateTodo(params).then(function() {
           console.log('succes complate todo')
           clearInterval(_this.interval_id)
-          _this.todo.status = _this.$store.getters.statusDone
-          _this.$store.commit('destroyProgressTodo')
+          _this.todo.status = _this.getStatus["DONE"]
+          _this.$store.commit('todo/destroyProgressTodo')
         }).catch(function(e) {
           consolo.error(e)
         })
       },
       isDisabedStartBtn () {
-        return this.todo.status !== this.$store.getters.statusReady || this.todo.status == this.$store.getters.statusDoing
+        return this.todo.status !== this.getStatus["READY"] || this.todo.status == this.getStatus["DOING"]
       },
       isDisabedStopBtn () {
-        return this.todo.status !== this.$store.getters.statusDoing
+        return this.todo.status !== this.getStatus["DOING"]
       },
       categoryName () {
         var category = this.$store.getters.categoryById(this.todo.category_id)
