@@ -30,7 +30,7 @@ const todoModule = {
 
       for (i; i < todos.length; i++) {
         todo = todos[i]
-        if (todo.status !== state.config.status["DOING"]) {
+        if (todo.status === state.config.status["DOING"] || todo.status === state.config.status["READY"]) {
           results.push(todo)
         }
       }
@@ -63,6 +63,18 @@ const todoModule = {
       var todos = payload
       state.todos = todos
     },
+    setTodo (state, payload) {
+      var todo = payload,
+          currentTodos = state.todos,
+          i = 0,
+          num = currentTodos.length
+
+      for(i; i < num; i++) {
+        if (currentTodos[i].id === todo.id) {
+          currentTodos[i] = todo
+        }
+      }
+    }
   },
   actions: {
     getTodos ({commit}) {
@@ -70,6 +82,16 @@ const todoModule = {
       .then(function (res) {
         var todos = res.data
         commit('setTodos', todos)
+      })
+    },
+    updateTodo ({commit}, paramsObj) {
+      var params = new URLSearchParams(paramsObj),
+          url = this.state.config.app.APIURL + 'todos/' + paramsObj._id
+
+      return axios.post(url, params)
+      .then(function (res) {
+        commit('setTodo', res.data.todo)
+        return res.data.todo
       })
     }
   }

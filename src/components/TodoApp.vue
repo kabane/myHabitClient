@@ -20,7 +20,7 @@
 			<h2>タスク一覧</h2>
 			<ul class="todo_list">
 				<li class="todo" v-for="(todo) in this.getDoingTodos" :key="todo._id">
-          <doing-todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
+          <doing-todo :prop_todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
 				</li>
 			</ul>
 	</section>
