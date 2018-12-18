@@ -8,7 +8,10 @@ Vue.use(Vuex);
 const todoModule = {
   namespaced: true,
   state: {
-    progressTodo: null,
+    progressTodo: {
+      todo: null,
+      interval_id: null
+    },
     todos: [],
     config: {
       status: {
@@ -22,42 +25,32 @@ const todoModule = {
     status (state) {
       return state.config.status
     },
+    progressTodo (state) {
+      return state.progressTodo
+    },
     doingTodos (state, getters) {
-      var i = 0,
-      results = [],
-      todo,
-      todos = state.todos
-
-      for (i; i < todos.length; i++) {
-        todo = todos[i]
-        if (todo.status === state.config.status["DOING"] || todo.status === state.config.status["READY"]) {
-          results.push(todo)
-        }
-      }
-
-      return results
+      return state.todos.filter(function (todo) {
+        return todo.status === state.config.status["DOING"] || todo.status === state.config.status["READY"]
+      })
     },
     doneTodos (state, getters) {
-      var i = 0,
-          results = [],
-          todo,
-          todos = state.todos
-      for (i; i < todos.length; i++) {
-        todo = todos[i]
-        if (todo.status === state.config.status["DONE"]) {
-          results.push(todo)
-        }
-      }
-
-      return results
+      return state.todos.filter(function(todo){
+        return todo.status === state.config.status["DONE"]
+      })
     }
   },
   mutations: {
     updateProgressTodo (state, payload) {
       state.progressTodo = payload 
     },
-    destroyProgressTodo (state) {
-      state.progressTodo = null
+    initProgressTodo (state) {
+      state.progressTodo = {
+        todo: {},
+        interval_id: null
+      }
+    },
+    setProgressTodo (state, payload) {
+      state.progressTodo = payload
     },
     setTodos (state, payload) {
       var todos = payload
@@ -65,33 +58,65 @@ const todoModule = {
     },
     setTodo (state, payload) {
       var todo = payload,
-          currentTodos = state.todos,
+          todos = state.todos,
+          index = null,
           i = 0,
-          num = currentTodos.length
+          num = todos.length
 
       for(i; i < num; i++) {
-        if (currentTodos[i].id === todo.id) {
-          currentTodos[i] = todo
+        if (todos[i]._id === todo._id) {
+          index = i
         }
       }
+
+      todos.splice(index, 1, todo)
+      return todo
+    },
+    addTodo (state, payload) {
+      console.log('pushed new todo')
+      state.todos.push(payload)
     }
   },
   actions: {
-    getTodos ({commit}) {
+    getAll ({commit}) {
       return axios.get(this.state.config.app.APIURL)
       .then(function (res) {
-        var todos = res.data
-        commit('setTodos', todos)
+        console.log(res.data)
+        commit('setTodos', res.data)
       })
     },
-    updateTodo ({commit}, paramsObj) {
+    create ({commit}, paramsObj) {
       var params = new URLSearchParams(paramsObj),
+      _this = this,
+      url = this.state.config.app.APIURL + 'todos'
+
+      return axios.post(url, params, {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .then(function(res) {
+        var todo = res.data.todo
+        console.log('created' + todo.name)
+        commit('addTodo', todo)
+      })
+    },
+    update ({commit}, paramsObj) {
+      var params = new URLSearchParams(paramsObj),
+          _this = this,
           url = this.state.config.app.APIURL + 'todos/' + paramsObj._id
 
       return axios.post(url, params)
       .then(function (res) {
-        commit('setTodo', res.data.todo)
-        return res.data.todo
+        var todo = res.data.todo
+        commit('setTodo', todo)
+        return todo
+      })
+      .then(function (todo) {
+        var progressTodo = _this.getters['todo/progressTodo']
+        if (progressTodo.todo && progressTodo.todo._id === todo._id) {
+          clearInterval(progressTodo.interval_id)
+          commit('initProgressTodo')
+        }
+        return todo
       })
     }
   }

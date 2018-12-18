@@ -50,7 +50,6 @@
       return {
         valid_messages: [],
         text: '',
-        todos: [],
         category_id: '',
       }
     },
@@ -65,10 +64,16 @@
     },
     methods: {
       add: function () {
-        var _this = this
+        var _this = this,
+            params = {
+              name: this.text,
+              elapsed_time: 0,
+              status: this.getStatus["READY"],
+              category_id: this.category_id
+            }
 
-        this.createTodo().then(function (res) {
-            _this.$store.dispatch('todo/getTodos')
+        this.$store.dispatch('todo/create', params)
+        .then(function () {
             _this.text = ''
             _this.category_id = ''
         })        
@@ -101,24 +106,6 @@
         setInterval(function () {
           this.valid_messages = []
         }, 3000)
-      },
-      createTodo () {
-        var _this = this,
-            params = new URLSearchParams({
-              name: this.text,
-              elapsed_time: 0,
-              status: this.getStatus["READY"],
-              category_id: this.category_id
-            }),
-            url = this.appConfig.APIURL + 'todos'
-
-        return axios.post(
-          url,
-          params,
-          {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-          }
-        )
       }
     }
   }
