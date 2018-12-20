@@ -19,15 +19,15 @@
     <section class="todo-active">
 			<h2>タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in this.doingTodos" :key="todo._id">
-          <doing-todo :todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
+				<li class="todo" v-for="(todo) in this.getDoingTodos" :key="todo._id">
+          <doing-todo :prop_todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
 				</li>
 			</ul>
 	</section>
   <section class="todo-done">
 			<h2>完了タスク一覧</h2>
 			<ul class="todo_list">
-				<li class="todo" v-for="(todo) in this.doneTodos" :key="todo._id">
+				<li class="todo" v-for="(todo) in this.getDoneTodos" :key="todo._id">
           <done-todo :todo="todo"></done-todo>
 				</li>
 			</ul>
@@ -50,24 +50,30 @@
       return {
         valid_messages: [],
         text: '',
-        todos: [],
         category_id: '',
       }
     },
     computed: {
       ...mapGetters({
-        doingTodos: 'doingTodos',
-        doneTodos: 'doneTodos',
-        getCategories: 'categories',
-        appConfig: 'appConfig'
+        getDoingTodos: 'todo/doingTodos',
+        getDoneTodos: 'todo/doneTodos',
+        getCategories: 'category/categories',
+        appConfig: 'appConfig',
+        getStatus: 'todo/status'
       })
     },
     methods: {
       add: function () {
-        var _this = this
+        var _this = this,
+            params = {
+              name: this.text,
+              elapsed_time: 0,
+              status: this.getStatus["READY"],
+              category_id: this.category_id
+            }
 
-        this.createTodo().then(function (res) {
-            _this.$store.dispatch('getTodos')
+        this.$store.dispatch('todo/create', params)
+        .then(function () {
             _this.text = ''
             _this.category_id = ''
         })        
@@ -77,7 +83,7 @@
         var validMessages = [
           todo.name + 'を開始しました'
         ]
-        this.$store.commit('updateCurrentTodo', todo)
+        this.$store.commit('todo/updateCurrentTodo', todo)
         this.createValidMessage(validMessages)
       },
       failActivateTodo () {
@@ -100,24 +106,6 @@
         setInterval(function () {
           this.valid_messages = []
         }, 3000)
-      },
-      createTodo () {
-        var _this = this,
-            params = new URLSearchParams({
-              name: this.text,
-              elapsed_time: 0,
-              status: this.$store.getters.statusReady,
-              category_id: this.category_id
-            }),
-            url = this.appConfig.APIURL + 'todos'
-
-        return axios.post(
-          url,
-          params,
-          {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-          }
-        )
       }
     }
   }

@@ -19,10 +19,10 @@
     created: function() {
       var self = this
 
-      this.$store.dispatch('getTodos')
+      this.$store.dispatch('todo/getAll')
       .then(
         function() {
-          return self.$store.dispatch('getCategories')
+          return self.$store.dispatch('category/getAll')
         }
       ); 
 
