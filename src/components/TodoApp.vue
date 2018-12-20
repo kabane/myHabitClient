@@ -39,15 +39,15 @@
       <section class="todo-active todolistSection todolistSection--active appSection">
   			<h2 class="appSection__index">タスク一覧</h2>
   			<ul class="todos">
-  				<li class="todo" v-for="(todo) in this.getDoingTodos" :key="todo._id">
+  				<li v-for="(todo) in this.getDoingTodos" :key="todo._id">
             <doing-todo :prop_todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
   				</li>
   			</ul>
   	</section>
     <section class="todo-done todolist todolist--done appSection">
   			<h2 class="appSection__index">完了タスク一覧</h2>
-  			<ul class="todo">
-  				<li class="todo" v-for="(todo) in this.getDoneTodos" :key="todo._id">
+  			<ul class="todos">
+  				<li v-for="(todo) in this.getDoneTodos" :key="todo._id">
             <done-todo :todo="todo"></done-todo>
   				</li>
   			</ul>
@@ -271,5 +271,29 @@ style
           margin-top: 20px;
         }
     }
+  }
+
+  .todo{
+      padding: 20px;
+      list-style: none;
+      border-radius: 2px;
+
+      &__index{
+        font-size: 2.2rem;
+        font-weight: bold;
+
+        @media screen and ( max-width: 640px ){
+          font-size: 2rem;
+        } 
+      }
+
+      &:not( :last-child ){
+        margin-top: 20px;
+      }
+
+
+      //////カテゴリラベル
+      &__categories{
+      }
   }
 </style>
