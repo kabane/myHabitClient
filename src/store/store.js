@@ -5,68 +5,118 @@ import { appConfig } from '../config/app.env'
 
 Vue.use(Vuex);
  
-export default new Vuex.Store({
+const todoModule = {
+  namespaced: true,
   state: {
-    progressTodo: null,
+    progressTodo: {
+      todo: null,
+      interval_id: null
+    },
     todos: [],
-    categories: [],
     config: {
-      todo: {
-        status: {
-          'READY': 0,
-          'DOING': 1,
-          'DONE': 2          
-        }
-      },
-      app: appConfig
+      status: {
+        'READY': 0,
+        'DOING': 1,
+        'DONE': 2
+      }          
     }
   },
   getters: {
-    appConfig (state) {
-      return state.config.app
+    status (state) {
+      return state.config.status
     },
     progressTodo (state) {
       return state.progressTodo
     },
-    statusReady (state) {
-      return state.config.todo.status['READY']
-    },
-    statusDoing (state) {
-      return state.config.todo.status['DOING']
-    },
-    statusDone (state) {
-      return state.config.todo.status['DONE']
-    },
     doingTodos (state, getters) {
-      var i = 0,
-      results = [],
-      todo,
-      todos = state.todos
-
-      for (i; i < todos.length; i++) {
-        todo = todos[i]
-        if (todo.status !== getters.statusDone) {
-          results.push(todo)
-        }
-      }
-
-      return results
+      return state.todos.filter(function (todo) {
+        return todo.status === state.config.status["DOING"] || todo.status === state.config.status["READY"]
+      })
     },
     doneTodos (state, getters) {
-      var i = 0,
-          results = [],
-          todo,
-          todos = state.todos
+      return state.todos.filter(function(todo){
+        return todo.status === state.config.status["DONE"]
+      })
+    }
+  },
+  mutations: {
+    setProgressTodo (state, payload) {
+      state.progressTodo = payload
+    },
+    setTodos (state, payload) {
+      var todos = payload
+      state.todos = todos
+    },
+    setTodo (state, payload) {
+      var todo = payload,
+          todos = state.todos,
+          i = 0,
+          num = todos.length
 
-      for (i; i < todos.length; i++) {
-        todo = todos[i]
-        if (todo.status === getters.statusDone) {
-          results.push(todo)
+      for(i; i < num; i++) {
+        if (todos[i]._id === todo._id) {
+          todos.splice(i, 1, todo)
         }
       }
-
-      return results
+      
+      return todo
     },
+    addTodo (state, payload) {
+      console.log('pushed new todo')
+      state.todos.push(payload)
+    }
+  },
+  actions: {
+    getAll ({commit}) {
+      return axios.get(this.state.config.app.APIURL)
+      .then(function (res) {
+        console.log(res.data)
+        commit('setTodos', res.data)
+      })
+    },
+    create ({commit}, paramsObj) {
+      var params = new URLSearchParams(paramsObj),
+      _this = this,
+      url = this.state.config.app.APIURL + 'todos'
+
+      return axios.post(url, params, {
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .then(function(res) {
+        var todo = res.data.todo
+        console.log('created' + todo.name)
+        commit('addTodo', todo)
+      })
+    },
+    update ({commit}, paramsObj) {
+      var params = new URLSearchParams(paramsObj),
+          _this = this,
+          url = this.state.config.app.APIURL + 'todos/' + paramsObj._id
+
+      return axios.post(url, params)
+      .then(function (res) {
+        var todo = res.data.todo
+        commit('setTodo', todo)
+        return todo
+      })
+      .then(function (todo) {
+        var progressTodo = _this.getters['todo/progressTodo']
+        if (progressTodo.todo && progressTodo.todo._id === todo._id) {
+          clearInterval(progressTodo.interval_id)
+          commit('initProgressTodo')
+        }
+        return todo
+      })
+    }
+  }
+}
+
+const categoryModule = {
+  namespaced: true,
+  state: {
+    categories: [],
+  },
+  getters: {
     categories (state) {
       return state.categories
     },
@@ -82,36 +132,52 @@ export default new Vuex.Store({
     }
   },
   mutations: {
-    updateProgressTodo (state, payload) {
-      state.progressTodo = payload 
-    },
-    destroyProgressTodo (state) {
-      state.progressTodo = null
-    },
-    setTodos (state, payload) {
-      var todos = payload
-      state.todos = todos
-    },
     setCategories (state, payload) {
       var categories = payload
       state.categories = categories
+    },
+    addCategory (state, payload) {
+      console.log('pushed new category')
+      state.categories.push(payload)
     }
   },
   actions: {
-    getTodos ({commit}) {
-      return axios.get(this.state.config.app.APIURL)
-      .then(function (res) {
-        var todos = res.data
-        commit('setTodos', todos)
-      })
-    },
-    getCategories ({commit}) {
+    getAll ({commit}) {
       return axios.get(this.state.config.app.APIURL+'categories/')
       .then(function (res) {
         var categories = res.data
         commit('setCategories', categories)
       })
+    },
+    create ({commit}, paramsObj) {
+      var params = new URLSearchParams(paramsObj),
+          url = this.state.config.app.APIURL + 'categories'
+
+      return axios.post(url, params, { 
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .then(function(res) {
+        var category = res.data.category
+        console.log('created' + category.name)
+        commit('addCategory', category)
+      })
     }
   }
+}
 
+export default new Vuex.Store({
+  modules: {
+    todo: todoModule,
+    category: categoryModule
+  },
+  state: {
+    config: {
+      app: appConfig
+    }
+  },
+  getters: {
+    appConfig (state) {
+      return state.config.app
+    }
+  }
 });
