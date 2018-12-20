@@ -62,10 +62,10 @@ style
       // color: $color_disabled;
       padding-left: 3em;
       position: relative;
-      // color: $color_disabled;
-      // background-color: $paleblue;  
-      color: #fff;
-      background-color: lighten($color_disabled,6%);  
+      color: $color_disabled;
+      background-color: desaturate($paleblue, 100%);  
+      // color: #fff;
+      // background-color: lighten($color_disabled,6%);  
 
 
       &:before{
@@ -80,10 +80,10 @@ style
         left: 1em;
         border-radius: 10000px;
         background-image: url(../assets/img/icon-done.svg);
-        background-size: 1em auto;
+        background-size: 0.618em auto;
         background-position: center;
         background-repeat: no-repeat;
-        // background-color: currentColor;
+        background-color: currentColor;
       }       
 
       &__index{
