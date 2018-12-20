@@ -17,7 +17,7 @@
               追加済みのカテゴリ
             </h3>
             <ul class="labels">
-              <li class="category" v-for="(category) in this.getCategories" :key="category._id">
+              <li class="label label--category" v-for="(category) in this.getCategories" :key="category._id">
                 {{ category.name }}
               </li>
             </ul>
