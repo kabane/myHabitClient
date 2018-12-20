@@ -40,15 +40,6 @@ const todoModule = {
     }
   },
   mutations: {
-    updateProgressTodo (state, payload) {
-      state.progressTodo = payload 
-    },
-    initProgressTodo (state) {
-      state.progressTodo = {
-        todo: {},
-        interval_id: null
-      }
-    },
     setProgressTodo (state, payload) {
       state.progressTodo = payload
     },
@@ -59,17 +50,15 @@ const todoModule = {
     setTodo (state, payload) {
       var todo = payload,
           todos = state.todos,
-          index = null,
           i = 0,
           num = todos.length
 
       for(i; i < num; i++) {
         if (todos[i]._id === todo._id) {
-          index = i
+          todos.splice(i, 1, todo)
         }
       }
-
-      todos.splice(index, 1, todo)
+      
       return todo
     },
     addTodo (state, payload) {
@@ -122,24 +111,12 @@ const todoModule = {
   }
 }
 
-
-export default new Vuex.Store({
-  modules: {
-    todo: todoModule
-  },
+const categoryModule = {
+  namespaced: true,
   state: {
     categories: [],
-    config: {
-      app: appConfig
-    }
   },
   getters: {
-    appConfig (state) {
-      return state.config.app
-    },
-    progressTodo (state) {
-      return state.progressTodo
-    },
     categories (state) {
       return state.categories
     },
@@ -158,16 +135,49 @@ export default new Vuex.Store({
     setCategories (state, payload) {
       var categories = payload
       state.categories = categories
+    },
+    addCategory (state, payload) {
+      console.log('pushed new category')
+      state.categories.push(payload)
     }
   },
   actions: {
-    getCategories ({commit}) {
+    getAll ({commit}) {
       return axios.get(this.state.config.app.APIURL+'categories/')
       .then(function (res) {
         var categories = res.data
         commit('setCategories', categories)
       })
+    },
+    create ({commit}, paramsObj) {
+      var params = new URLSearchParams(paramsObj),
+          url = this.state.config.app.APIURL + 'categories'
+
+      return axios.post(url, params, { 
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .then(function(res) {
+        var category = res.data.category
+        console.log('created' + category.name)
+        commit('addCategory', category)
+      })
     }
   }
+}
 
+export default new Vuex.Store({
+  modules: {
+    todo: todoModule,
+    category: categoryModule
+  },
+  state: {
+    config: {
+      app: appConfig
+    }
+  },
+  getters: {
+    appConfig (state) {
+      return state.config.app
+    }
+  }
 });

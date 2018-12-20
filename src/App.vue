@@ -22,7 +22,7 @@
       this.$store.dispatch('todo/getAll')
       .then(
         function() {
-          return self.$store.dispatch('getCategories')
+          return self.$store.dispatch('category/getAll')
         }
       ); 
 

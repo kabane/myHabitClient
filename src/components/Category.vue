@@ -5,7 +5,7 @@
 		<button v-on:click="add()">送信</button>
 		<div class="createdCategory">
 			<ul class="categoryList">
-				<li class="category" v-for="(category) in this.categories" :key="category._id">
+				<li class="category" v-for="(category) in this.getCategories" :key="category._id">
 					{{ category.name }}
 				</li>
 			</ul>
@@ -28,31 +28,21 @@
 		},
 		computed: {
       ...mapGetters({
-        categories: 'categories',
+        getCategories: 'category/categories',
         appConfig: 'appConfig'
       })
     },
     methods: {
         add: function () {
-            var _this = this
+            var _this = this,
+                params = {
+                  name: this.name,
+                }
 
-            this.createCategory().then(function (res) {
-								_this.$store.dispatch('getCategories')
-								_this.name = ''
-            })        
-        },
-        createCategory () {
-          var _this = this,
-              params = new URLSearchParams({
-                name: this.name,
-              }),
-              url = this.appConfig.APIURL + 'categories'
-
-          return axios.post(
-            url,
-            params,
-            { headers: {'Content-Type': 'application/x-www-form-urlencoded'} }
-          )
+            this.$store.dispatch('category/create', params)
+            .then(function() {
+              _this.name = ''
+            })
         }
     }
   }

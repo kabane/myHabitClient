@@ -27,7 +27,8 @@
       ...mapGetters({
         appConfig: 'appConfig',
         getStatus: 'todo/status',
-        getProgressTodo: 'todo/progressTodo'
+        getProgressTodo: 'todo/progressTodo',
+        getCategoryById: 'category/categoryById'
       })
     },
     created: function() {
@@ -110,7 +111,7 @@
         return this.todo.status !== this.getStatus["DOING"]
       },
       categoryName () {
-        var category = this.$store.getters.categoryById(this.todo.category_id)
+        var category = this.getCategoryById(this.todo.category_id)
 
         return category ? category.name : "カテゴリー未設定"
       },

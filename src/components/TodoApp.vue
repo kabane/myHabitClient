@@ -57,7 +57,7 @@
       ...mapGetters({
         getDoingTodos: 'todo/doingTodos',
         getDoneTodos: 'todo/doneTodos',
-        getCategories: 'categories',
+        getCategories: 'category/categories',
         appConfig: 'appConfig',
         getStatus: 'todo/status'
       })
