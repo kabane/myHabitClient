@@ -171,6 +171,10 @@
     background: #fff url(assets/img/icon-select.svg) right 10px center no-repeat;
   }
 
+  a{
+    color: $color_primary;
+  }
+
 
 
   /*******************
@@ -275,6 +279,7 @@
   border-radius: 2px;
   font-size: 1em;
   color: #ffffff;
+  transition: all 0.2s ease 0s;
   cursor: pointer;
   background-color: $color_primary ;
 
@@ -394,6 +399,7 @@
   height: 90px;
   line-height: 1;
   display: flex;
+  z-index: 10;
   align-items: center;
   position: fixed;
   top: 0;
