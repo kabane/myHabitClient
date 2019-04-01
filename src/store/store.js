@@ -1,10 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import VueCookies from 'vue-cookies'
 import { appConfig } from '../config/app.env'
+import { router } from '../router/index'
 
 Vue.use(Vuex);
- 
+Vue.use(VueCookies)
+VueCookies.config('7d')
+
+axios.interceptors.request.use(
+  (config) => {
+    if ($cookies.isKey('token')) {
+      config.headers['Authorization'] = `Bearer ${ $cookies.get('token') }`;
+    }
+
+    return config;
+  }, 
+
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 const todoModule = {
   namespaced: true,
   state: {
@@ -44,7 +62,7 @@ const todoModule = {
       state.progressTodo = payload
     },
     setTodos (state, payload) {
-      var todos = payload
+      var todos = payload.todos
       state.todos = todos
     },
     setTodo (state, payload) {
@@ -68,7 +86,10 @@ const todoModule = {
   },
   actions: {
     getAll ({commit}) {
-      return axios.get(this.state.config.app.APIURL)
+      let token = VueCookies.get('token');
+      return axios.get(this.state.config.app.APIURL + "/todos", {
+        withCredentials: true
+      })
       .then(function (res) {
         console.log(res.data)
         commit('setTodos', res.data)
@@ -143,7 +164,9 @@ const categoryModule = {
   },
   actions: {
     getAll ({commit}) {
-      return axios.get(this.state.config.app.APIURL+'categories/')
+      return axios.get(this.state.config.app.APIURL+'/categories/', {
+        withCredentials: true
+      })
       .then(function (res) {
         var categories = res.data
         commit('setCategories', categories)
@@ -165,10 +188,82 @@ const categoryModule = {
   }
 }
 
+const AuthModule = {
+  namespaced: true,
+  state: {
+    user: null,
+  },
+  getters: {
+    user (state) {
+      return state.user
+    }
+  },
+  mutations: {
+    
+  },
+  actions: {
+    signUp ({commit}, paramsObj) {
+      var url = this.state.config.app.APIURL + '/users/sign_up',
+          params = new URLSearchParams();
+          params.append('email', paramsObj.email)
+          params.append('password', paramsObj.password)
+
+      return axios.post(url, {
+        user: {
+          email: paramsObj.email,
+          password: paramsObj.password
+        }
+      }, {
+        srfHeaderName: 'X-CSRF-Token',
+        withCredentials: true,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      })
+      .then(function(res) {
+        VueCookies.set('token', res.data.token);
+      })
+    },
+    login ({commit}, paramsObj) {
+      var url = this.state.config.app.APIURL + '/users/login',
+          params = new URLSearchParams();
+          params.append('email', paramsObj.email)
+          params.append('password', paramsObj.password)
+
+      return axios.post(url, {
+        user: {
+          email: paramsObj.email,
+          password: paramsObj.password
+        }      
+      }, {
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(function(res) {
+        VueCookies.set('token', res.data.token);
+      })
+    },
+    logout ({commit}) {
+      var url = this.state.config.app.APIURL + '/users/logout'
+
+      return axios.get(url, {
+        withCredentials: true
+      })
+      .then(function(status, res) {
+        debugger;
+        if ($cookies.isKey('token')) {
+          $cookies.remove('token')
+        }
+      })
+    },
+    fetch () {
+
+    }
+  }
+}
+
 export default new Vuex.Store({
   modules: {
     todo: todoModule,
-    category: categoryModule
+    category: categoryModule,
+    auth: AuthModule
   },
   state: {
     config: {
