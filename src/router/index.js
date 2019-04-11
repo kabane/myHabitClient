@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import VueCookies from 'vue-cookies'
 
+Vue.use(VueCookies)
 Vue.use(Router)
 
 const routes = new Router({
@@ -36,27 +38,13 @@ const routes = new Router({
 })
 
 
-function isAuthorized() {
-  if (!document.cookie) return false 
-  var cookiesObj = {};
-  var cookies_str = document.cookie.split('; ');
-  for(var i=0;i<cookies_str.length;i++){
-    var data = cookies_str[i].split('=');
-    if (data[0] === 'token') {
-      cookiesObj['token'] = decodeURIComponent(data[1])  
-    }
-  }
-
-  return cookiesObj.hasOwnProperty('token') && typeof (cookiesObj['token']) == "string"
-}
-
 routes.beforeEach((to, from, next) => {
-  console.log("aa")
-  debugger;
   if(to.meta.isPublic) return next()
   // isPublic でない場合(=認証が必要な場合)、かつ、ログインしていない場合
-  if (!isAuthorized()) {
-    return next({ path: '/login', query: { redirect: to.fullPath }});
+  if (!$cookies.isKey('token')) {
+    return next({ path: '/login'});
+  } else if (from.path==="login" || from.path==="sign_up") {
+    return next({ path: '/'});
   } else {
     return next();
   }

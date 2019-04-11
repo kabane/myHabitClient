@@ -1,5 +1,10 @@
 <template>
 	<main class="main">
+    <ul class="errors">
+      <li v-for="error in errors">
+        {{error}}
+      </li>
+    </ul>
     <label>
       EMAIL:
       <input v-model="email" type="text">
@@ -8,7 +13,7 @@
       PASSWORD:
       <input v-model="password" type="text">
     </label>
-    <button class="button button--primary" v-on:click="sign_up">ログイン</button>
+    <button class="button button--primary" v-on:click="login">ログイン</button>
   </main>
 </template>
 
@@ -22,13 +27,14 @@
     data: function () {
       return {
         email: '',
-        password: ''
+        password: '',
+        errors: [],
       }
 		},
 		computed: {
     },
     methods: {
-      sign_up () {
+      login () {
         var _this = this,
             params = {
               email: this.email,
@@ -37,13 +43,16 @@
 
         this.$store.dispatch('auth/login', params)
         .then(function () {
-          console.log('success')
+          _this.errors = []
           _this.email = '';
           _this.password = '';
         })
         .then(function(res) {
           this.$router.push({path: '/'});
-        }.bind(_this))        
+        }.bind(_this))
+        .catch(function(e){
+          this.errors.push("認証に失敗しました。メールアドレスかパスワードが間違っています")
+        }.bind(this))
       }
     }
   }

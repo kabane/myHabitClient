@@ -35,7 +35,7 @@
           this.$router.push({path: '/login'});
         }.bind(this))
         .catch(function (res) {
-          // this.$router.push({path: '/login'});
+          this.$router.push({path: '/login'});
         }.bind(this))
       }
     }
