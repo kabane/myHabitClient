@@ -22,6 +22,7 @@ axios.interceptors.request.use(
     return Promise.reject(error);
   }
 );
+axios.defaults.withCredentials = true
 
 const todoModule = {
   namespaced: true,
@@ -80,18 +81,14 @@ const todoModule = {
       return todo
     },
     addTodo (state, payload) {
-      console.log('pushed new todo')
       state.todos.push(payload)
     }
   },
   actions: {
     getAll ({commit}) {
       let token = VueCookies.get('token');
-      return axios.get(this.state.config.app.APIURL + "/todos", {
-        withCredentials: true
-      })
+      return axios.get(this.state.config.app.APIURL + "/todos")
       .then(function (res) {
-        console.log(res.data)
         commit('setTodos', res.data)
       })
     },
@@ -154,33 +151,33 @@ const categoryModule = {
   },
   mutations: {
     setCategories (state, payload) {
-      var categories = payload
-      state.categories = categories
+      var categories = payload.categories
+      if (Array.isArray(categories)) {
+        state.categories = categories
+      } else {
+        // 例外
+      }
     },
-    addCategory (state, payload) {
-      console.log('pushed new category')
+    addCategory (state, payload) { 
       state.categories.push(payload)
     }
   },
   actions: {
     getAll ({commit}) {
-      return axios.get(this.state.config.app.APIURL+'/categories/', {
-        withCredentials: true
-      })
+      return axios.get(this.state.config.app.APIURL+'/categories/')
       .then(function (res) {
         var categories = res.data
         commit('setCategories', categories)
       })
     },
     create ({commit}, paramsObj) {
-      var params = new URLSearchParams(paramsObj),
-          url = this.state.config.app.APIURL + 'categories'
+      var url = this.state.config.app.APIURL + '/categories'
 
-      return axios.post(url, params, { 
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      return axios.post(url, {category: {name: paramsObj.name}}, { 
+        headers: {'Content-Type': 'application/json'}
       })
       .then(function(res) {
-        var category = res.data.category
+        var category = res.data
         console.log('created' + category.name)
         commit('addCategory', category)
       })
@@ -223,10 +220,7 @@ const AuthModule = {
       })
     },
     login ({commit}, paramsObj) {
-      var url = this.state.config.app.APIURL + '/users/login',
-          params = new URLSearchParams();
-          params.append('email', paramsObj.email)
-          params.append('password', paramsObj.password)
+      var url = this.state.config.app.APIURL + '/users/login'
 
       return axios.post(url, {
         user: {

@@ -15,17 +15,6 @@
     components: {
       HeaderParts,
       FooterParts
-    },
-    created: function() {
-      var self = this
-
-      this.$store.dispatch('todo/getAll')
-      .then(
-        function() {
-          return self.$store.dispatch('category/getAll')
-        }
-      ); 
-
     }
   }
 </script>

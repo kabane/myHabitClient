@@ -42,7 +42,10 @@
         valid_messages: [],
         name: ''
       }
-		},
+    },
+    created: function() {
+      this.fetchCategories()
+    },
 		computed: {
       ...mapGetters({
         getCategories: 'category/categories',
@@ -50,17 +53,23 @@
       })
     },
     methods: {
-        add: function () {
-            var _this = this,
-                params = {
-                  name: this.name,
-                }
+      add: function () {
+          var _this = this,
+              params = {
+                name: this.name,
+              }
 
-            this.$store.dispatch('category/create', params)
-            .then(function() {
-              _this.name = ''
-            })
-        }
+          this.$store.dispatch('category/create', params)
+          .then(function() {
+            _this.name = ''
+          })
+      },
+      fetchCategories() {
+        this.$store.dispatch('category/getAll')
+        .catch(function(res){
+          this.$router.push({path: '/login'});
+        }.bind(this))
+      }
     }
   }
 </script>

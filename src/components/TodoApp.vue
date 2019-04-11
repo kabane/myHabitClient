@@ -83,6 +83,10 @@
         getStatus: 'todo/status'
       })
     },
+    created: function() {
+      this.fetchTodos()
+      this.fetchCategories()
+    },
     methods: {
       add: function () {
         var _this = this,
@@ -127,6 +131,18 @@
         setInterval(function () {
           this.valid_messages = []
         }, 3000)
+      },
+      fetchTodos () {
+        this.$store.dispatch('todo/getAll')
+        .catch(function(res){
+          this.$router.push({path: '/login'});
+        }.bind(this))
+      },
+      fetchCategories() {
+        this.$store.dispatch('category/getAll')
+        .catch(function(res){
+          this.$router.push({path: '/login'});
+        }.bind(this))
       }
     }
   }
