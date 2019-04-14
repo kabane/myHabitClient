@@ -85,8 +85,8 @@
       })
     },
     created: function() {
-      this.fetchTodos()
       this.fetchCategories()
+      this.fetchTodos()
     },
     methods: {
       add: function () {
