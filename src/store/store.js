@@ -34,9 +34,9 @@ const todoModule = {
     todos: [],
     config: {
       status: {
-        'READY': 0,
-        'DOING': 1,
-        'DONE': 2
+        'READY': 'ready',
+        'DOING': 'doing',
+        'DONE': 'done'
       }          
     }
   },
@@ -93,18 +93,16 @@ const todoModule = {
       })
     },
     create ({commit}, paramsObj) {
-      var params = new URLSearchParams(paramsObj),
-      _this = this,
-      url = this.state.config.app.APIURL + 'todos'
+      let url = this.state.config.app.APIURL + '/todos'
 
-      return axios.post(url, params, {
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+      return axios.post(url, {todo: paramsObj}, {
+          headers: {'Content-Type': 'application/json'}
       })
       .then(function(res) {
-        var todo = res.data.todo
-        console.log('created' + todo.name)
+        var todo = res.data
         commit('addTodo', todo)
       })
+
     },
     update ({commit}, paramsObj) {
       var params = new URLSearchParams(paramsObj),
@@ -241,7 +239,6 @@ const AuthModule = {
         withCredentials: true
       })
       .then(function(status, res) {
-        debugger;
         if ($cookies.isKey('token')) {
           $cookies.remove('token')
         }

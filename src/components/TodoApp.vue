@@ -2,8 +2,8 @@
   <main class="main">
     <div class="wrap">
       <ul class="alerts">
-        <li class="todo" v-for="(message) in valid_messages" v-bind:key=message.index>
-          {{message}}
+        <li class="todo" v-for="error in errors" v-bind:key=error.index>
+          {{error}}
         </li>
       </ul>
       <section class="todoform appSection">
@@ -23,9 +23,9 @@
               </dt>
               <dd class="inputTodo__content">
                 <select v-model="category_id">
-                  <option value="" selected>カテゴリー選択</option>
-                  <option v-for="(category) in this.getCategories" :key="category._id" :value="category._id">
-                    {{ category.name }}
+                  <option value=undefined selected>カテゴリー選択</option>
+                  <option v-for="(category) in categories" :key="category.id" :value="category.id">
+                    {{category.name}}
                   </option>
                 </select>
               </dd>
@@ -39,7 +39,7 @@
       <section class="todo-active todolistSection todolistSection--active appSection">
   			<h2 class="appSection__index">タスク一覧</h2>
   			<ul class="todos">
-  				<li v-for="(todo) in this.getDoingTodos" :key="todo._id">
+  				<li v-for="(todo) in this.getDoingTodos" :key="todo.id">
             <doing-todo :prop_todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
   				</li>
   			</ul>
@@ -47,7 +47,7 @@
     <section class="todo-done todolist todolist--done appSection">
   			<h2 class="appSection__index">完了タスク一覧</h2>
   			<ul class="todos">
-  				<li v-for="(todo) in this.getDoneTodos" :key="todo._id">
+  				<li v-for="(todo) in this.getDoneTodos" :key="todo.id">
             <done-todo :todo="todo"></done-todo>
   				</li>
   			</ul>
@@ -69,9 +69,10 @@
     },
     data: function () {
       return {
-        valid_messages: [],
+        errors: [],
         text: '',
-        category_id: '',
+        category_id: null,
+        categories: []
       }
     },
     computed: {
@@ -89,24 +90,22 @@
     },
     methods: {
       add: function () {
-        var _this = this,
-            params = {
-              name: this.text,
+        let params = {
+              title: this.text,
               elapsed_time: 0,
               status: this.getStatus["READY"],
               category_id: this.category_id
             }
-
         this.$store.dispatch('todo/create', params)
         .then(function () {
-            _this.text = ''
-            _this.category_id = ''
-        })        
+            this.text = ''
+            this.category_id = ''
+        }.bind(this))        
       },
       // Callbacks
       activateTodo (todo) {
         var validMessages = [
-          todo.name + 'を開始しました'
+          todo.title + 'を開始しました'
         ]
         this.$store.commit('todo/updateCurrentTodo', todo)
         this.createValidMessage(validMessages)
@@ -119,17 +118,17 @@
         this.createValidMessage(validMessages)
       },
       createValidMessage (messages) {
-        for(var i = 0; i < this.valid_messages.length; i++) {
-          this.valid_messages.splice(i, 1)  
+        for(var i = 0; i < this.errors.length; i++) {
+          this.errors.splice(i, 1)  
         }
         var count = messages.length
         if (count === 0) return
         for (var i = 0; i < count; i++) {
-          this.$set(this.valid_messages, i, messages[i])
+          this.$set(this.errors, i, messages[i])
         }
 
         setInterval(function () {
-          this.valid_messages = []
+          this.errors = []
         }, 3000)
       },
       fetchTodos () {
@@ -140,6 +139,10 @@
       },
       fetchCategories() {
         this.$store.dispatch('category/getAll')
+        .then(function(){
+          this.categories = this.getCategories
+          this.category_id = 'カテゴリー選択'
+        }.bind(this))
         .catch(function(res){
           this.$router.push({path: '/login'});
         }.bind(this))
