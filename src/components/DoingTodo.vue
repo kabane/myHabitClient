@@ -1,5 +1,5 @@
 <template>
-  <div :id="todo._id" class="todo">
+  <div :id="todo.id" class="todo">
     <header class="todo__index">{{ todo.title }}</header>
     <footer class="todo__footer">
       <div class="todo__footer__col">
@@ -46,7 +46,7 @@
     created: function() {
       if (this.todo.status === this.getStatus["DOING"]) {
         var progressTodo = this.getProgressTodo
-        if (progressTodo.todo && progressTodo.todo._id === this.todo._id) {
+        if (progressTodo.todo && progressTodo.todo.id === this.todo.id) {
           clearInterval(progressTodo.interval_id)
         }
         this.start()
@@ -62,23 +62,23 @@
         }
         
         var params = {
-          _id: this.todo._id,
+          id: this.todo.id,
           status: this.getStatus["DOING"]
         }
         this.$store.dispatch('todo/update', params)
-          .then(
-            function (todo) {
-              _this.todo = todo
-              var interval_id = setInterval(function () {
-                console.log('count up elapsed_time')
-                var elapsedTime = _this.todo.elapsed_time++
+          .then(function (todo) {
+            debugger;
+            _this.todo = todo
+            var interval_id = setInterval(function () {
+              console.log('count up elapsed_time')
+              var elapsedTime = _this.todo.elapsed_time++
 
-                _this.h = _this.getHourStr(elapsedTime)
-                _this.m = _this.getMinStr(elapsedTime)
-                _this.s = _this.getSecStr(elapsedTime)
-              }, 1000)
-              _this.$store.commit('todo/setProgressTodo', {todo: todo, interval_id: interval_id})
-            })
+              _this.h = _this.getHourStr(elapsedTime)
+              _this.m = _this.getMinStr(elapsedTime)
+              _this.s = _this.getSecStr(elapsedTime)
+            }, 1000)
+            _this.$store.commit('todo/setProgressTodo', {todo: todo, interval_id: interval_id})
+          })
           .catch(function(e) {
             console.error(e)
           })
@@ -86,9 +86,9 @@
       },
       stop () {
         var _this = this,
-            url = this.appConfig.APIURL + 'todos/' + this.todo._id,
+            url = this.appConfig.APIURL + 'todos/' + this.todo.id,
             params = {
-              _id: _this.todo._id,
+              id: _this.todo.id,
               status: _this.getStatus["READY"],
               elapsed_time: _this.todo.elapsed_time
             }
@@ -104,7 +104,7 @@
       done () {
         var _this = this,
             params = {
-              _id: this.todo._id,
+              id: this.todo.id,
               status: _this.getStatus["DONE"]
             }
 

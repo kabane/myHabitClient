@@ -49,7 +49,7 @@ let todoModule = {
             num = todos.length
   
         for(i; i < num; i++) {
-          if (todos[i]._id === todo._id) {
+          if (todo && todos[i].id === todo.id) {
             todos.splice(i, 1, todo)
           }
         }
@@ -80,20 +80,19 @@ let todoModule = {
         })
   
       },
-      update ({commit}, paramsObj) {
-        var params = new URLSearchParams(paramsObj),
-            _this = this,
-            url = this.state.config.app.APIURL + 'todos/' + paramsObj._id
+      update ({commit}, params) {
+          var _this = this,
+               url = this.state.config.app.APIURL + '/todos/' + params.id
   
-        return axios.post(url, params)
+        return axios.patch(url, {todo: params})
         .then(function (res) {
-          var todo = res.data.todo
+          var todo = res.data
           commit('setTodo', todo)
           return todo
         })
         .then(function (todo) {
           var progressTodo = _this.getters['todo/progressTodo']
-          if (progressTodo.todo && progressTodo.todo._id === todo._id) {
+          if (progressTodo.todo && progressTodo.todo.id === todo.id) {
             clearInterval(progressTodo.interval_id)
             commit('initProgressTodo')
           }
