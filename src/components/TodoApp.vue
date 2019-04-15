@@ -59,8 +59,8 @@
 <script>
   import DoingTodo from './DoingTodo.vue'
   import DoneTodo from './DoneTodo.vue'
-  import axios from 'axios'
   import { mapGetters } from 'vuex'
+  
   export default {
     name: 'todo-app',
     components: {
