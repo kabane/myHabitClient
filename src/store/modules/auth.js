@@ -14,34 +14,23 @@ let authModule = {
       
     },
     actions: {
-      signUp ({commit}, paramsObj) {
-        var url = this.state.config.app.APIURL + '/users/sign_up',
-            params = new URLSearchParams();
-            params.append('email', paramsObj.email)
-            params.append('password', paramsObj.password)
+      signUp ({commit}, params) {
+        let url = this.state.config.app.APIURL + '/users/sign_up'
   
         return axios.post(url, {
-          user: {
-            email: paramsObj.email,
-            password: paramsObj.password
-          }
+          user: params 
         }, {
-          srfHeaderName: 'X-CSRF-Token',
-          withCredentials: true,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          headers: {'Content-Type': 'application/json'}
         })
         .then(function(res) {
           $cookies.set('token', res.data.token);
         })
       },
-      login ({commit}, paramsObj) {
+      login ({commit}, params) {
         var url = this.state.config.app.APIURL + '/users/login'
   
         return axios.post(url, {
-          user: {
-            email: paramsObj.email,
-            password: paramsObj.password
-          }      
+          user: params
         }, {
           headers: {'Content-Type': 'application/json'}
         })
