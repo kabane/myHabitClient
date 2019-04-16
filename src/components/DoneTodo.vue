@@ -1,6 +1,6 @@
 <template>
   <div class="todo">
-    <header class="todo__index">{{ todo.name }}</header>
+    <header class="todo__index">{{ todo.title }}</header>
     <footer class="todo__footer">
       <div class="todo__footer__col">
         <ul class="todo__categories labels">

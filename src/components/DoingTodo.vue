@@ -1,6 +1,6 @@
 <template>
-  <div :id="todo._id" class="todo">
-    <header class="todo__index">{{ todo.name }}</header>
+  <div :id="todo.id" class="todo">
+    <header class="todo__index">{{ todo.title }}</header>
     <footer class="todo__footer">
       <div class="todo__footer__col">
         <ul class="todo__categories labels">
@@ -8,7 +8,7 @@
             {{ this.categoryName() }}
           </li>
         </ul>
-        <p class="todo__elapsedTime">経過時間 <span class="elapsedTime">{{ this.getHourStr(this.todo.elapsed_time) + ':' + this.getMinStr(this.todo.elapsed_time) + ':' + this.getSecStr(this.todo.elapsed_time)  }}</span></p>
+        <p class="todo__elapsedTime">経過時間 <span class="elapsedTime">{{ secondStr }}</span></p>
       </div>
       <div class="todo__footer__col">
         <div class="todo__buttons buttons">
@@ -22,8 +22,9 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import secondFormatter from '../util/second_formatter'
   import { mapGetters } from 'vuex'
+  
   export default {
     name: 'todo',
     props: [
@@ -33,6 +34,7 @@
       return {
         todo: this.prop_todo,
         interval_id: null,
+        secondStr: ''
       }
     },
     computed: {
@@ -44,9 +46,10 @@
       })
     },
     created: function() {
+      this.secondStr = secondFormatter(this.todo.elapsed_time)
       if (this.todo.status === this.getStatus["DOING"]) {
         var progressTodo = this.getProgressTodo
-        if (progressTodo.todo && progressTodo.todo._id === this.todo._id) {
+        if (progressTodo.todo && progressTodo.todo.id === this.todo.id) {
           clearInterval(progressTodo.interval_id)
         }
         this.start()
@@ -54,31 +57,24 @@
     },
     methods: {
       start () {
-        var _this = this
-
         if (this.$store.getters.progressTodo) {
           this.$emit('todo/failActivateTodo')
           return
         }
         
         var params = {
-          _id: this.todo._id,
+          id: this.todo.id,
           status: this.getStatus["DOING"]
         }
         this.$store.dispatch('todo/update', params)
-          .then(
-            function (todo) {
-              _this.todo = todo
-              var interval_id = setInterval(function () {
-                console.log('count up elapsed_time')
-                var elapsedTime = _this.todo.elapsed_time++
-
-                _this.h = _this.getHourStr(elapsedTime)
-                _this.m = _this.getMinStr(elapsedTime)
-                _this.s = _this.getSecStr(elapsedTime)
-              }, 1000)
-              _this.$store.commit('todo/setProgressTodo', {todo: todo, interval_id: interval_id})
-            })
+          .then(function (todo) {
+            this.todo = todo
+            let interval_id = setInterval(function () {
+              let elapsedTime = this.todo.elapsed_time++
+              this.secondStr = secondFormatter(elapsedTime)
+            }.bind(this), 1000)
+            this.$store.commit('todo/setProgressTodo', {todo: todo, interval_id: interval_id})
+          }.bind(this))
           .catch(function(e) {
             console.error(e)
           })
@@ -86,9 +82,9 @@
       },
       stop () {
         var _this = this,
-            url = this.appConfig.APIURL + 'todos/' + this.todo._id,
+            url = this.appConfig.APIURL + 'todos/' + this.todo.id,
             params = {
-              _id: _this.todo._id,
+              id: _this.todo.id,
               status: _this.getStatus["READY"],
               elapsed_time: _this.todo.elapsed_time
             }
@@ -104,7 +100,7 @@
       done () {
         var _this = this,
             params = {
-              _id: this.todo._id,
+              id: this.todo.id,
               status: _this.getStatus["DONE"]
             }
 
@@ -126,19 +122,7 @@
         var category = this.getCategoryById(this.todo.category_id)
 
         return category ? category.name : "カテゴリー未設定"
-      },
-      getHourStr (time) {
-        var h = time / 3600 | 0
-        return h < 10 ? '0' + h : h
-      },
-      getMinStr (time) {
-        var min = time % 3600 / 60 | 0
-        return min < 10 ? '0' + min : min
-      },
-      getSecStr (time) {
-        var sec = time % 60
-        return sec < 10 ? '0' + sec : sec
-      },
+      }
     }
   }
 </script>

@@ -12,14 +12,33 @@
             <div class="siteHeader__nav__link">
               <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
             </div>
+            <div class="siteHeader__nav__link" v-if="isAuthorized">
+              <a v-on:click.prevent="logout">ログアウト</a>
+            </div>
         </nav>
       </div>
   </header>    
 </template>
 
 <script>
+  import {Mixin} from '../mixins/auth.js'
+  import axios from 'axios'
+  import { mapGetters } from 'vuex'
+  
   export default {
-    name: 'header-parts'
+    name: 'header-parts',
+    mixins:[Mixin],
+    methods: {
+      logout() {
+        this.$store.dispatch('auth/logout')
+        .then(function(res) {
+          this.$router.push({path: '/login'});
+        }.bind(this))
+        .catch(function (res) {
+          this.$router.push({path: '/login'});
+        }.bind(this))
+      }
+    }
   }
 </script>
 
