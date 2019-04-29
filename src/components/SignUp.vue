@@ -1,5 +1,6 @@
 <template>
 	<main class="main">
+    <errors :errors="errors"></errors>
     <label>
       EMAIL:
       <input v-model="email" type="text">
@@ -9,38 +10,43 @@
       <input v-model="password" type="text">
     </label>
     <button class="button button--primary" v-on:click="sign_up">新規登録</button>
+    <router-link to="/login" exact>ログイン</router-link>
   </main>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import Errors from './common/Errors.vue'
   
   export default {
     name: 'category',
     components: {
+      Errors
     },
     data: function () {
       return {
         email: '',
-        password: ''
+        password: '',
+        errors: []
       }
 		},
 		computed: {
     },
     methods: {
       sign_up () {
-        var _this = this,
-            params = {
-              email: this.email,
-              password: this.password,     
-            }
+        let params = {
+          email: this.email,
+          password: this.password,     
+        }
 
         this.$store.dispatch('auth/signUp', params)
-        .then(function () {
-          console.log('success')
-          _this.email = '';
-          _this.password = '';
-        })        
+        .then(function(res) {
+          this.$router.push({path: '/'});
+        }.bind(this))
+        .catch(function(e){
+          this.errors = []
+          this.errors.push("認証に失敗しました。メールアドレスかパスワードが間違っています")
+        }.bind(this))        
       }
     }
   }
