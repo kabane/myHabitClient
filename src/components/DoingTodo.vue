@@ -41,17 +41,12 @@
       ...mapGetters({
         appConfig: 'appConfig',
         getStatus: 'todo/status',
-        getProgressTodo: 'todo/progressTodo',
         getCategoryById: 'category/categoryById'
       })
     },
     created: function() {
       this.secondStr = secondFormatter(this.todo.elapsed_time)
       if (this.todo.status === this.getStatus["DOING"]) {
-        var progressTodo = this.getProgressTodo
-        if (progressTodo.todo && progressTodo.todo.id === this.todo.id) {
-          clearInterval(progressTodo.interval_id)
-        }
         this.start()
       }
     },
@@ -69,11 +64,10 @@
         this.$store.dispatch('todo/update', params)
           .then(function (todo) {
             this.todo = todo
-            let interval_id = setInterval(function () {
+            this.interval_id = setInterval(function () {
               let elapsedTime = this.todo.elapsed_time++
               this.secondStr = secondFormatter(elapsedTime)
             }.bind(this), 1000)
-            this.$store.commit('todo/setProgressTodo', {todo: todo, interval_id: interval_id})
           }.bind(this))
           .catch(function(e) {
             console.error(e)
@@ -81,18 +75,18 @@
 
       },
       stop () {
-        var _this = this,
-            url = this.appConfig.APIURL + 'todos/' + this.todo.id,
+        var url = this.appConfig.APIURL + 'todos/' + this.todo.id,
             params = {
-              id: _this.todo.id,
-              status: _this.getStatus["READY"],
-              elapsed_time: _this.todo.elapsed_time
+              id: this.todo.id,
+              status: this.getStatus["READY"],
+              elapsed_time: this.todo.elapsed_time
             }
 
         this.$store.dispatch('todo/update', params)
         .then(function(todo){
-          _this.todo = todo
-        })
+          this.todo = todo
+          clearInterval(this.interval_id)
+        }.bind(this))
         .catch(function(e) {
           console.error(e)
         })    
