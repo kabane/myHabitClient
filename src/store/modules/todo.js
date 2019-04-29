@@ -70,9 +70,23 @@ let todoModule = {
         })
   
       },
-      update ({commit}, params) {
-          var _this = this,
-               url = this.state.config.app.APIURL + '/todos/' + params.id
+      update ({commit}, {params, method}) {
+        debugger
+        let url = this.state.config.app.APIURL + '/todos/' + params.id
+
+        switch (method) {
+          case 'start':
+            url += '/start'
+            break
+          case 'stop':
+            url += '/stop'
+            break
+          case 'complete':
+            url += '/complete'
+            break
+          default:
+            break        
+        }
   
         return axios.patch(url, {todo: params})
         .then(function (res) {

@@ -52,16 +52,16 @@
     },
     methods: {
       start () {
-        if (this.$store.getters.progressTodo) {
-          this.$emit('todo/failActivateTodo')
-          return
-        }
-        
-        var params = {
-          id: this.todo.id,
-          status: this.getStatus["DOING"]
-        }
-        this.$store.dispatch('todo/update', params)
+        // if (this.$store.getters.progressTodo) {
+        //   this.$emit('todo/failActivateTodo')
+        //   return
+        // }
+        let params = {
+              id: this.todo.id,
+              status: this.getStatus["DOING"]
+            }
+
+        this.$store.dispatch('todo/update', {params: params, method: 'start'})
           .then(function (todo) {
             this.todo = todo
             this.interval_id = setInterval(function () {
@@ -75,14 +75,13 @@
 
       },
       stop () {
-        var url = this.appConfig.APIURL + 'todos/' + this.todo.id,
-            params = {
+        let params = {
               id: this.todo.id,
               status: this.getStatus["READY"],
               elapsed_time: this.todo.elapsed_time
             }
 
-        this.$store.dispatch('todo/update', params)
+        this.$store.dispatch('todo/update', {params: params, method: 'stop'})
         .then(function(todo){
           this.todo = todo
           clearInterval(this.interval_id)
@@ -92,16 +91,15 @@
         })    
       },
       done () {
-        var _this = this,
-            params = {
+        let params = {
               id: this.todo.id,
-              status: _this.getStatus["DONE"]
+              status: this.getStatus["DONE"]
             }
 
-        this.$store.dispatch('todo/update', params)
+        this.$store.dispatch('todo/update', {params: params, method: 'done'})
         .then(function(todo){
-          _this.todo = todo
-        })
+          this.todo = todo
+        }.bind(this))
         .catch(function(e) {
           console.error(e)
         })
