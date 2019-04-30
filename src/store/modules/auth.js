@@ -10,9 +10,6 @@ let authModule = {
         return state.user
       }
     },
-    mutations: {
-      
-    },
     actions: {
       signUp ({commit}, params) {
         let url = this.state.config.app.APIURL + '/users/sign_up'

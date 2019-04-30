@@ -9,6 +9,10 @@
       PASSWORD:
       <input v-model="password" type="text">
     </label>
+    <label>
+      CONFIRMATION:
+      <input v-model="password_confirmation" type="text">
+    </label>
     <button class="button button--primary" v-on:click="sign_up">新規登録</button>
     <router-link to="/login" exact>ログイン</router-link>
   </main>
@@ -27,6 +31,7 @@
       return {
         email: '',
         password: '',
+        password_confirmation: '',
         errors: []
       }
 		},
@@ -36,7 +41,8 @@
       sign_up () {
         let params = {
           email: this.email,
-          password: this.password,     
+          password: this.password,  
+          password_confirmation: this.password_confirmation   
         }
 
         this.$store.dispatch('auth/signUp', params)
@@ -44,9 +50,15 @@
           this.$router.push({path: '/'});
         }.bind(this))
         .catch(function(e){
-          this.errors = []
-          this.errors.push("認証に失敗しました。メールアドレスかパスワードが間違っています")
+          let res = e.response,
+          error_message = res.data.error_message
+
+          this.onErrorCatch(error_message)
         }.bind(this))        
+      },
+      onErrorCatch (message) {
+        this.errors = []
+        this.errors.push(message)
       }
     }
   }
