@@ -71,7 +71,6 @@ let todoModule = {
   
       },
       update ({commit}, {params, method}) {
-        debugger
         let url = this.state.config.app.APIURL + '/todos/' + params.id
 
         switch (method) {

@@ -40,7 +40,7 @@
   			<h2 class="appSection__index">タスク一覧</h2>
   			<ul class="todos">
   				<li v-for="(todo) in this.getDoingTodos" :key="todo.id">
-            <doing-todo :prop_todo="todo" @activateTodo="activateTodo" @failActivateTodo="failActivateTodo"></doing-todo>
+            <doing-todo :prop_todo="todo" @error-catch="onErrorCatch"></doing-todo>
   				</li>
   			</ul>
   	</section>
@@ -100,36 +100,18 @@
         .then(function () {
             this.text = ''
             this.category_id = ''
+            this.errors = []
+        }.bind(this))
+        .catch(function(e){
+          let res = e.response,
+          error_message = res.data.error_message
+
+          this.onErrorCatch(error_message)
         }.bind(this))        
       },
-      // Callbacks
-      activateTodo (todo) {
-        var validMessages = [
-          todo.title + 'を開始しました'
-        ]
-        this.$store.commit('todo/updateCurrentTodo', todo)
-        this.createValidMessage(validMessages)
-      },
-      failActivateTodo () {
-        var validMessages = [
-          '現在進行中のタスクが存在します',
-          '新たにタスクを開始するには、進行中のタスクを完了するか中断してください'
-        ]
-        this.createValidMessage(validMessages)
-      },
-      createValidMessage (messages) {
-        for(var i = 0; i < this.errors.length; i++) {
-          this.errors.splice(i, 1)  
-        }
-        var count = messages.length
-        if (count === 0) return
-        for (var i = 0; i < count; i++) {
-          this.$set(this.errors, i, messages[i])
-        }
-
-        setInterval(function () {
-          this.errors = []
-        }, 3000)
+      onErrorCatch (message) {
+        this.errors = []
+        this.errors.push(message)
       },
       fetchTodos () {
         this.$store.dispatch('todo/getAll')

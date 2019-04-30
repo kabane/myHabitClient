@@ -1,32 +1,37 @@
 <template>
 	<main class="main">
     <div class="wrap ">
-    		<section class="appSection">
-          <h2 class="appSection__index">カテゴリー登録</h2>
-          <section class="toCreateCategory childSection">
-            <h3 class="childSection__index">
-              入力して追加する
-            </h3>
-            <div class="inputRow">
-              <input type="text" name="name" placeholder="タスクの分類を入力してください（「アポ」「ランチ」…）" v-model="name">
-              <button class="button button--primary" v-on:click="add()">追加する</button>
-            </div>
-          </section>
-          <section class="createdCategory childSection">
-            <h3 class="childSection__index">
-              追加済みのカテゴリ
-            </h3>
-            <ul class="labels">
-              <li class="label label--category" v-for="(category) in this.getCategories" :key="category._id">
-                {{ category.name }}
-              </li>
-            </ul>
-          </section>
-          <footer class="appSection__footer">
-            <router-link to="/" class="backlink">タスク一覧に戻る</router-link>
-          </footer>
+      <section class="appSection">
+        <h2 class="appSection__index">カテゴリー登録</h2>
+        <ul class="alerts">
+          <li class="todo" v-for="error in errors" v-bind:key=error.index>
+            {{error}}
+          </li>
+        </ul>
+        <section class="toCreateCategory childSection">
+          <h3 class="childSection__index">
+            入力して追加する
+          </h3>
+          <div class="inputRow">
+            <input type="text" name="name" placeholder="タスクの分類を入力してください（「アポ」「ランチ」…）" v-model="name">
+            <button class="button button--primary" v-on:click="add()">追加する</button>
+          </div>
         </section>
-    	</div>
+        <section class="createdCategory childSection">
+          <h3 class="childSection__index">
+            追加済みのカテゴリ
+          </h3>
+          <ul class="labels">
+            <li class="label label--category" v-for="(category) in this.getCategories" :key="category._id">
+              {{ category.name }}
+            </li>
+          </ul>
+        </section>
+        <footer class="appSection__footer">
+          <router-link to="/" class="backlink">タスク一覧に戻る</router-link>
+        </footer>
+      </section>
+    </div>
   </main>
 </template>
 
@@ -39,7 +44,7 @@
     },
     data: function () {
       return {
-        valid_messages: [],
+        errors: [],
         name: ''
       }
     },
@@ -54,15 +59,25 @@
     },
     methods: {
       add: function () {
-          var _this = this,
-              params = {
+          let params = {
                 name: this.name,
               }
 
           this.$store.dispatch('category/create', params)
           .then(function() {
-            _this.name = ''
-          })
+            this.name = ''
+            this.errors = []
+          }.bind(this))
+          .catch(function(e) {
+            let res = e.response,
+            error_message = res.data.error_message
+
+            this.onErrorCatch(error_message)
+          }.bind(this))
+      },
+      onErrorCatch (message) {
+        this.errors = []
+        this.errors.push(message)
       },
       fetchCategories() {
         this.$store.dispatch('category/getAll')

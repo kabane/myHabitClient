@@ -52,10 +52,6 @@
     },
     methods: {
       start () {
-        // if (this.$store.getters.progressTodo) {
-        //   this.$emit('todo/failActivateTodo')
-        //   return
-        // }
         let params = {
               id: this.todo.id,
               status: this.getStatus["DOING"]
@@ -70,8 +66,11 @@
             }.bind(this), 1000)
           }.bind(this))
           .catch(function(e) {
-            console.error(e)
-          })
+            let res = e.response,
+                error_message = res.data.error_message
+
+            this.$emit('error-catch', error_message)
+          }.bind(this))
 
       },
       stop () {
@@ -87,7 +86,10 @@
           clearInterval(this.interval_id)
         }.bind(this))
         .catch(function(e) {
-          console.error(e)
+          let res = e.response,
+          error_message = res.data.error_message
+
+          this.$emit('error-catch', error_message)
         })    
       },
       done () {
@@ -101,7 +103,10 @@
           this.todo = todo
         }.bind(this))
         .catch(function(e) {
-          console.error(e)
+          let res = e.response,
+          error_message = res.data.error_message
+
+          this.$emit('error-catch', error_message)
         })
       },
       isDisabedStartBtn () {
