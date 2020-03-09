@@ -77,6 +77,7 @@
         text-decoration: none;
         display: flex;
         align-items: center;
+        cursor: pointer;
 
          @media screen and ( max-width: 640px ){  
           width: 100%;
