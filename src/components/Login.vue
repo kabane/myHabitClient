@@ -58,14 +58,64 @@
   }
 </script>
 
+<style lang="scss">
+html {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F6FAFB url(/assets/img/logo-bg.svg);
+  background-size: cover;
+}
+
+#app {
+  width: 500px;
+  margin: auto;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+
+  @media screen and ( max-width: 768px ){
+    width: 500px;
+    flex-shrink: 0;
+  }
+  @media screen and ( max-width: 640px ){    
+    width: 320px;
+    flex-shrink: 0;
+  }
+} 
+
+.siteHeader {
+  position: relative;
+
+  .wrap {
+    justify-content: center;
+  }
+}
+
+.siteHeader__nav {
+  display: none;
+}
+</style>
 <style lang="scss" scoped>
+.main {
+ margin-top: 0;
+ padding: 50px 20px ;
+ background-color: #ffffff;
+box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
+
+    @media screen and (max-width: 480px) {
+      padding: 20px 10px;
+    }
+}
+
 .signin{
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   &__column {
-    width: 80%;
+    width: 100%;
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -81,7 +131,9 @@
     }
 
     &__label {
-      width: 120px;
+      width: 80px;
+      flex-shrink: 0;
+      font-size: 0.8em;
 
       @media screen and (max-width: 480px) {
         width: auto;
@@ -94,7 +146,9 @@
 
   .buttons {
     width: 100%;
+    margin-top: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 
     @media screen and (max-width: 480px) {
@@ -108,7 +162,7 @@
     }
 
     a {
-      padding: 1em;
+      padding: 1.25em;
     }
   }
 

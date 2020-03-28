@@ -235,7 +235,7 @@
 
   .button{
     width: 100px;
-    height: 40px;
+    height: 50px;
     padding: 0;
     line-height: 1;
     display: flex;

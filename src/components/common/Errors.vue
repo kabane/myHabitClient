@@ -14,4 +14,26 @@
 </script>
 
 <style lang="scss" scoped>
+
+
+.errors {
+  margin-left: 0;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+
+  &:empty {
+    display: none;
+  }
+
+  li {
+    padding: 1em;
+    margin-left: 0;
+    list-style: none;
+
+    &:not(:last-child){
+      margin-bottom: 10px;
+    }
+  }
+}
 </style>
