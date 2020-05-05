@@ -4,7 +4,7 @@
         <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
         <nav class="siteHeader__nav">
             <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__percentage" to="/" exact>タスク比率</router-link>
+              <router-link class="siteHeader__nav__percentage" to="/dashboard" exact>タスク比率</router-link>
             </div>
             <div class="siteHeader__nav__link">
               <router-link class="siteHeader__nav__task" to="/todos" exact>タスク一覧</router-link>

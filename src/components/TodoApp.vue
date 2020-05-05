@@ -92,7 +92,6 @@
       add: function () {
         let params = {
               title: this.text,
-              elapsed_time: 0,
               status: this.getStatus["READY"],
               category_id: this.category_id
             }
