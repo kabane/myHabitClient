@@ -1,7 +1,10 @@
 <template>
   <header id="header" class="siteHeader">
       <div class="wrap">
-        <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
+        <div class="siteHeader__logoarea">
+          <p class="siteHeader__logoarea__description" v-if="$route.path=='/login' || '/signup'">気の利く上司のようなタスク管理ツール</p>
+            <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
+        </div>
         <nav class="siteHeader__nav">
             <div class="siteHeader__nav__link">
               <router-link class="siteHeader__nav__percentage" to="/" exact>タスク比率</router-link>
@@ -52,6 +55,17 @@
 
       @media screen and ( max-width: 768px ){
         z-index: 10;
+      }
+    }
+
+    &__logoarea {
+      line-height: 1;
+      text-align: center;
+
+      &__description {
+        margin-bottom: 1px;
+        font-size: 10px;
+        color: #ffffff;
       }
     }
 
