@@ -17,7 +17,7 @@
             <div class="signup__block__index">
               ご登録がまだですか？
             </div>
-            <router-link to="/sign_up" exact>世界一かんたんなタスク登録を始めよう</router-link>
+            <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
           </div>
         </div>
       </div>
@@ -195,6 +195,10 @@ box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
   text-align: center;
 
   &__index {
+    color: #677789;
+  }
+
+  &__link {
     font-weight: bold;
   }
 }
