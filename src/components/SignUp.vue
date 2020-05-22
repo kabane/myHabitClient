@@ -12,8 +12,8 @@
             <input class="signup__pass" v-model="password" type="password">
           </label>      
           <label class="signup__column">
-            <span class="signup__column__label">CONFIRM</span>
-            <input  class="signup__pass" v-model="password_confirmation" type="password">
+            <span class="signup__column__label">PASSWORD <br>CONFIRM</span>
+            <input class="signup__pass" v-model="password_confirmation" type="password">
           </label>     
           <div class="signup__column buttons">
             <button class="button button--primary" v-on:click="sign_up">新規登録して始める</button>

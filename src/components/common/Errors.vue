@@ -22,6 +22,10 @@
   padding-left: 0;
   display: flex;
   flex-direction: column;
+  font-size: 0.75em;
+  padding: 1em;
+  border-radius: 2px;
+  background-color: #ffdadf;
 
   &:empty {
     display: none;
