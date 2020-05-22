@@ -17,6 +17,7 @@
 
 
 .errors {
+  margin-top: 0;
   margin-left: 0;
   padding-left: 0;
   display: flex;
@@ -27,9 +28,10 @@
   }
 
   li {
-    padding: 1em;
+    padding: 0em;
     margin-left: 0;
     list-style: none;
+    margin-top: 0;
 
     &:not(:last-child){
       margin-bottom: 10px;

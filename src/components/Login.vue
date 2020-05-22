@@ -13,7 +13,12 @@
         </label>
         <div class="signin__column buttons">
           <button class="button button--primary" v-on:click="login">ログイン</button>
-          <router-link to="/sign_up" exact>新規登録</router-link>
+          <div class="signup__block">
+            <div class="signup__block__index">
+              ご登録がまだですか？
+            </div>
+            <router-link to="/sign_up" exact>世界一かんたんなタスク登録を始めよう</router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -182,6 +187,15 @@ box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
     @media screen and (max-width: 480px) {
       margin-left: 0;
     } 
+  }
+}
+
+.signup__block {
+  margin-top: 20px;
+  text-align: center;
+
+  &__index {
+    font-weight: bold;
   }
 }
 </style>
