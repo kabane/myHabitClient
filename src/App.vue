@@ -97,7 +97,7 @@
       padding-top: 90px;
       margin: 0;
       font-size: 1.6rem;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.1rem;
 
       @media screen and ( max-width: 640px ){
         padding-top: 0px;
