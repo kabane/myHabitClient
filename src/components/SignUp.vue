@@ -5,7 +5,7 @@
         <div class="signup">
           <label class="signup__column">
             <span class="signup__column__label">EMAIL</span>
-            <input class="signup__mail" v-model="email" type="text">
+            <input class="signup__mail" v-model="email" type="email">
           </label>
           <label class="signup__column">
             <span class="signup__column__label">PASSWORD</span>
