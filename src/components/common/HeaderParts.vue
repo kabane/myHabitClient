@@ -1,13 +1,13 @@
 <template>
-  <header id="header" class="siteHeader" :class="{'siteheader-notlogin' : ! isAuthorized }">
-    <header-sign-in v-if="isAuthorized" />
-    <header-sign-out v-else />
-  </header>  
+  <div>
+    <HeaderSignIn v-if="isAuthorized()" />
+    <HeaderSignOut v-else />
+  </div>
 </template>
 
 <script>
-  import HeaderSignIn from './HeaderParts-sign-in'
-  import HeaderSignOut from './HeaderParts-sign-out'
+  import HeaderSignIn from './HeaderPartsSignIn'
+  import HeaderSignOut from './HeaderPartsSignOut'
   import {Mixin} from '../mixins/auth.js'
   import axios from 'axios'
   import { mapGetters } from 'vuex'  
@@ -15,17 +15,6 @@
   export default {
     name: 'header-parts',
     mixins:[Mixin],
-    methods: {
-      logout() {
-        this.$store.dispatch('auth/logout')
-        .then(function(res) {
-          this.$router.push({path: '/login'});
-        }.bind(this))
-        .catch(function (res) {
-          this.$router.push({path: '/login'});
-        }.bind(this))
-      }
-    },    
     components: {
       HeaderSignIn,
       HeaderSignOut

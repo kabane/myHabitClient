@@ -1,24 +1,26 @@
 <template>
-  <div class="wrap">
-    <div class="siteHeader__logoarea">
-      <p class="siteHeader__logoarea__description">気の利く上司のようなタスク管理ツール</p>
-      <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
+  <header id="header" class="siteHeader">
+    <div class="wrap">
+      <div class="siteHeader__logoarea">
+        <p class="siteHeader__logoarea__description">気の利く上司のようなタスク管理ツール</p>
+        <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
+      </div>
+      <nav class="siteHeader__nav">
+        <div class="siteHeader__nav__link">
+          <router-link class="siteHeader__nav__percentage" to="/" exact>タスク比率</router-link>
+        </div>
+        <div class="siteHeader__nav__link">
+          <router-link class="siteHeader__nav__task" to="/todos" exact>タスク一覧</router-link>
+        </div>
+        <div class="siteHeader__nav__link">
+          <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
+        </div>
+        <div class="siteHeader__nav__link">
+          <a v-on:click.prevent="logout">ログアウト</a>
+        </div>
+      </nav>
     </div>
-    <nav class="siteHeader__nav">
-      <div class="siteHeader__nav__link">
-        <router-link class="siteHeader__nav__percentage" to="/" exact>タスク比率</router-link>
-      </div>
-      <div class="siteHeader__nav__link">
-        <router-link class="siteHeader__nav__task" to="/todos" exact>タスク一覧</router-link>
-      </div>
-      <div class="siteHeader__nav__link">
-        <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
-      </div>
-      <div class="siteHeader__nav__link">
-        <a v-on:click.prevent="logout">ログアウト</a>
-      </div>
-    </nav>
-  </div>
+  </header>
 </template>
 
 <script>
