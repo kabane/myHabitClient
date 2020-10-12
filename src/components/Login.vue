@@ -1,38 +1,44 @@
 <template>
-	<main class="main">
-    <div class="wrap">
-      <errors :errors="errors"></errors>
-      <div class="signin">
-        <label class="signin__column">
-          <span class="signin__column__label">EMAIL</span>
-          <input class="signin__mail" v-model="email" type="email" autocomplete="on" autofocus>
-        </label>
-        <label class="signin__column">
-          <span class="signin__column__label">PASSWORD</span>
-          <input class="signin__pass" v-model="password" type="password">
-        </label>
-        <div class="signin__column buttons">
-          <button class="button button--primary" v-on:click="login">ログイン</button>
-          <div class="signup__block">
-            <div class="signup__block__index">
-              ご登録がまだですか？
+	<div class="login-window-wrapper">
+    <header-parts />
+    <main class="main main-notlogin">
+        <div class="wrap">
+          <errors :errors="errors"></errors>
+          <div class="signin">
+            <label class="signin__column">
+              <span class="signin__column__label">EMAIL</span>
+              <input class="signin__mail" v-model="email" type="email" autocomplete="on" autofocus>
+            </label>
+            <label class="signin__column">
+              <span class="signin__column__label">PASSWORD</span>
+              <input class="signin__pass" v-model="password" type="password">
+            </label>
+            <div class="signin__column buttons">
+              <button class="button button--primary" v-on:click="login">ログイン</button>
+              <div class="signup__block">
+                <div class="signup__block__index">
+                  ご登録がまだですか？
+                </div>
+                <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
+              </div>
             </div>
-            <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
           </div>
         </div>
-      </div>
-    </div>
-  </main>
+      </main>
+  </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
   import Errors from './common/Errors.vue'
+  import HeaderParts from './common/HeaderParts'
+
   
   export default {
     name: 'category',
     components: {
-      Errors
+      Errors,
+      HeaderParts
     },
     data: function () {
       return {
@@ -63,56 +69,42 @@
   }
 </script>
 
-<style lang="scss">
-html {
-  min-height: 100%;
+<style lang="scss" scoped>
+
+.login-window-wrapper {
+  width: 100%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #F6FAFB url(/assets/img/logo-bg.svg);
-  background-size: cover;
 }
 
-#app {
+.wrap {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.main-notlogin {
   width: 500px;
-  margin: auto;
   overflow: hidden;
   position: relative;
-  flex-shrink: 0;
-
-  @media screen and ( max-width: 768px ){
-    width: 500px;
-    flex-shrink: 0;
-  }
-  @media screen and ( max-width: 640px ){    
-    width: 320px;
-    flex-shrink: 0;
-  }
-} 
-
-.siteHeader {
-  position: relative;
-
-  .wrap {
-    justify-content: center;
-  }
-}
-
-.siteHeader__nav {
-  display: none;
-}
-</style>
-<style lang="scss" scoped>
-.main {
- margin-top: 0;
- padding: 50px 20px ;
- background-color: #ffffff;
-box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+  box-shadow: 2px 9px 24px -10px rgba(0,0,0,0.1);
 
     @media screen and (max-width: 480px) {
       padding: 20px 10px;
-    }
-}
+    }  
+
+  @media screen and ( max-width: 768px ){
+    width: 500px;
+  }
+  @media screen and ( max-width: 640px ){    
+    width: 320px;
+  }
+} 
+
+
 
 .signin{
   display: flex;

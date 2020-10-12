@@ -1,20 +1,17 @@
 <template>
   <div id="app">
-    <header-parts/>
     <router-view></router-view>
     <footer-parts/>
   </div>
 </template>
 
 <script>
-  import HeaderParts from './components/common/HeaderParts.vue'
   import FooterParts from './components/common/FooterParts.vue'
   
   export default {
     name: 'my-project',
     components: {
-      HeaderParts,
-      FooterParts
+       FooterParts
     }
   }
 </script>
@@ -92,6 +89,9 @@
       font-size: 10px;
       font-weight: 300;
       font-family: 'Noto Sans JP', serif;
+      background: #F6FAFB url(./assets/img/logo-bg.svg) center center no-repeat;
+      background-size: cover;  
+
   }
   body{
       padding-top: 90px;
@@ -434,6 +434,15 @@
         border-bottom: 1px solid #fff;
   }
 
+  &__copy{
+    line-height: 1;
+    margin-top: 5px;
+    margin-bottom: 0rem;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
 
   &__logo {
     margin-top: 0;
@@ -462,12 +471,12 @@
   &:after {
     content: " ";
     width: 100%;
-    height: 200%;
+    height: 100%;
     transform-origin: center center;
-    transform: skewY(-0.5deg);
+    // transform: skewY(-0.5deg);
     position: absolute;
-    z-index: 1;
-    top: -100%;
+    z-index: -1;
+    top: 0%;
     right: 0;
     left: 0;
     background-image: linear-gradient(to right, #488DA7, #22556E);
@@ -479,11 +488,4 @@
 }
 
 
-.main{
-  margin-top: $space_l;
-
-  @media screen and ( max-width: 640px ){
-    margin-top: $space_l_sp;
-  }  
-}
 </style>

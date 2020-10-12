@@ -1,19 +1,33 @@
 <template>
-  <header  id="header" class="siteHeader" :class="{'siteheader-notlogin' : ! isAuthorized }">
-    <header-sign-in v-if="isAuthorized" />
-    <header-sign-out v-else />
-  </header>  
+  <div class="wrap">
+    <div class="siteHeader__logoarea">
+      <p class="siteHeader__logoarea__description" v-if="$route.path=='/login' || '/signup'">気の利く上司のようなタスク管理ツール</p>
+        <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
+    </div>
+    <nav class="siteHeader__nav">
+        <div class="siteHeader__nav__link">
+          <router-link class="siteHeader__nav__percentage" to="/" exact>タスク比率</router-link>
+        </div>
+        <div class="siteHeader__nav__link">
+          <router-link class="siteHeader__nav__task" to="/todos" exact>タスク一覧</router-link>
+        </div>
+        <div class="siteHeader__nav__link">
+          <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
+        </div>
+        <div class="siteHeader__nav__link" v-if="isAuthorized">
+          <a v-on:click.prevent="logout">ログアウト</a>
+        </div>
+    </nav>
+  </div>
 </template>
 
 <script>
-  import HeaderSignIn from './HeaderParts-sign-in'
-  import HeaderSignOut from './HeaderParts-sign-out'
   import {Mixin} from '../mixins/auth.js'
   import axios from 'axios'
-  import { mapGetters } from 'vuex'  
+  import { mapGetters } from 'vuex'
   
   export default {
-    name: 'header-parts',
+    name: 'header-parts-sign-in',
     mixins:[Mixin],
     methods: {
       logout() {
@@ -25,24 +39,11 @@
           this.$router.push({path: '/login'});
         }.bind(this))
       }
-    },    
-    components: {
-      HeaderSignIn,
-      HeaderSignOut
     }
   }
 </script>
 
-<style lang='scss' scoped>
-
-  .siteHeader{
-
-    &-notlogin {
-      position: relative;
-      max-width: 500px;
-      margin-right: auto;
-      margin-left: auto;
-    }
+<style lang='scss'>
 
     .wrap{
       position: relative;
@@ -53,6 +54,7 @@
       }
     }
 
+  .siteHeader{
     &__logoarea {
       line-height: 1;
       text-align: center;
