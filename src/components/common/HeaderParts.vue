@@ -1,5 +1,5 @@
 <template>
-  <header  id="header" class="siteHeader" :class="{'siteheader-notlogin' : ! isAuthorized }">
+  <header id="header" class="siteHeader" :class="{'siteheader-notlogin' : ! isAuthorized }">
     <header-sign-in v-if="isAuthorized" />
     <header-sign-out v-else />
   </header>  
