@@ -145,7 +145,7 @@
         background-color: $paleblue;
      }
     }
-    
+
     &:focus,
     &:active{
       background-color: $paleblue;
@@ -235,6 +235,7 @@
 
   .button{
     width: 100px;
+    min-width: 0;
     height: 50px;
     padding: 0;
     line-height: 1;
@@ -260,6 +261,7 @@
 }
 
 .button{
+  min-width: 220px;
   padding: 1em;
   display: flex;
   justify-content: center;
@@ -384,110 +386,7 @@
   /*******************
   module
   *******************/
-  .siteHeader {
-  width: 100%;
-  height: 90px;
-  line-height: 1;
-  display: flex;
-  z-index: 10;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  background: #6DB3BF;
-  background-image: linear-gradient(to left bottom, #4799B7, #7DC9DC);
-
-  @media screen and ( max-width: 640px ){  
-    height: 60px;
-    position: relative;
-  }
-
-  .wrap {
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-     @media screen and ( max-width: 640px ){  
-      justify-content: center;
-    }
-  }
-
-
-    ///////// 戻るボタン
-  &__back{
-      display: none;
-      a{
-          width: 100%;
-          height: 100%;
-        display: block;
-      }
-        width: 15px;
-        height: 15px;
-        margin: auto;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        transform: rotate( 45deg );
-        border-left: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-  }
-
-  &__copy{
-    line-height: 1;
-    margin-top: 5px;
-    margin-bottom: 0rem;
-    color: #ffffff;
-    font-weight: 400;
-    font-size: 1rem;
-}
-
-
-  &__logo {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  &:before {
-    content: " ";
-    width: 100%;
-    height: 100%;
-    transform-origin: center center;
-    transform: skewY(0.5deg);
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    left: 0;
-    background: #00D1E5;
-
-     @media screen and ( max-width: 640px ){  
-      transform: skewY(1deg);
-    }
-
-  }
-
-  &:after {
-    content: " ";
-    width: 100%;
-    height: 100%;
-    transform-origin: center center;
-    // transform: skewY(-0.5deg);
-    position: absolute;
-    z-index: -1;
-    top: 0%;
-    right: 0;
-    left: 0;
-    background-image: linear-gradient(to right, #488DA7, #22556E);
-
-     @media screen and ( max-width: 640px ){  
-      transform: skewY(-1deg);
-    }
-  }
-}
-
+  
 
 .main-todoapp { 
   padding-top: 90px;
@@ -500,6 +399,30 @@
     min-height: calc( 100vh - 110px );
   }  
 }
+
+.main-notlogin {
+  width: 500px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 2px 9px 24px -10px rgba(0,0,0,0.1);
+
+  @media screen and (max-width: 480px) {
+    padding: 20px 10px;
+  }  
+
+  @media screen and ( max-width: 768px ){
+    width: 500px;
+  }
+  @media screen and ( max-width: 640px ){    
+    width: 320px;
+  }
+} 
+
 
 
 </style>

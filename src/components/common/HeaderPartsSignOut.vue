@@ -18,6 +18,11 @@
   .siteHeader-notlogin {
     position: relative;
     max-width: 500px;
+
+    @media screen and ( max-width: 640px ) {
+      max-width: 90%;
+      margin-top: 10vh;
+    }
   }
   .wrap{
       flex-direction: column;

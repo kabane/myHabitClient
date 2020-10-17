@@ -22,7 +22,104 @@
   }
 </script>
 
+<style lang='scss'>
+.siteHeader {
+  width: 100%;
+  height: 90px;
+  line-height: 1;
+  display: flex;
+  z-index: 10;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: #6DB3BF;
+  background-image: linear-gradient(to left bottom, #4799B7, #7DC9DC);
+
+  @media screen and ( max-width: 640px ){  
+    height: 70px;
+    position: relative;
+  }
+
+  .wrap {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+     @media screen and ( max-width: 640px ){  
+      justify-content: center;
+    }
+  }
+
+
+    ///////// 戻るボタン
+  &__back{
+      display: none;
+      a{
+          width: 100%;
+          height: 100%;
+        display: block;
+      }
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        transform: rotate( 45deg );
+        border-left: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+  }
+
+  &__copy{
+    line-height: 1;
+    margin-top: 5px;
+    margin-bottom: 0rem;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+
+  &__logo {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &:before {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    transform: skewY(0.5deg);
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: #00D1E5;
+  }
+
+  &:after {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    // transform: skewY(-0.5deg);
+    position: absolute;
+    z-index: -1;
+    top: 0%;
+    right: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #488DA7, #22556E);
+  }
+}
+</style>
 <style lang='scss' scoped>
+
 
   .siteHeader{
 
