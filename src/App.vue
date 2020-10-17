@@ -89,9 +89,8 @@
       font-size: 10px;
       font-weight: 300;
       font-family: 'Noto Sans JP', serif;
-      background: #F6FAFB url(./assets/img/logo-bg.svg) center center no-repeat;
+      background: #F6FAFB;
       background-size: cover;  
-
   }
   body{
       padding-top: 90px;
@@ -385,6 +384,7 @@
   module
   *******************/
   .siteHeader {
+  width: 100%;
   height: 90px;
   line-height: 1;
   display: flex;
