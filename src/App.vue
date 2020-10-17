@@ -396,7 +396,7 @@
 
   @media screen and ( max-width: 640px ){
     padding-top: 60px;
-    min-height: calc( 100vh - 110px );
+    min-height: calc( 100vh - 180px );
   }  
 }
 

@@ -24,6 +24,8 @@
     
     @media screen and ( max-width: 640px ){
       height: 50px;
+      position: relative;
+      z-index: 1;
     }
 
 

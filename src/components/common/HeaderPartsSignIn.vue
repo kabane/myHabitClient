@@ -142,6 +142,11 @@
     &__logout {
       padding-left: 40px;
       border-left: solid 1px rgba( #fff ,0.2 );
+
+      @media screen and ( max-width : 640px ) {
+        padding-left: 0;
+        border-left: 0;
+      }
       
     }       
     &__percentage{
