@@ -16,7 +16,7 @@
           <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
         </div>
         <div class="siteHeader__nav__link ">
-          <a  class="siteHeader__nav__logout" v-on:click.prevent="logout">ログアウト</a>
+          <a class="siteHeader__nav__logout" v-on:click.prevent="logout">ログアウト</a>
         </div>
       </nav>
     </div>
@@ -97,27 +97,27 @@
         flex-direction: column;
         justify-content: center;
         height: 60px;
-      }        
+      }       
 
-      &:before{
-        content: " ";
-        width: 20px;
-        height: 20px;
-        background-position: center center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 5px;
+      &:not( .siteHeader__nav__logout ) {
+        &:before{
+          content: " ";
+          width: 1em;
+          height: 1em;
+          background-position: center center;
+          background-size: cover;
+          background-repeat: no-repeat;
+          margin-right: 5px;
 
-        @media screen and ( max-width: 640px ){
-          width: 27px;
-          height: 27px;
-          display: block;
-          margin-right: auto;
-          margin-bottom: 5px;
-          margin-left: auto;
-        }            
+          @media screen and ( max-width: 640px ){
+            width: 27px;
+            height: 27px;
+            display: block;
+            margin-right: auto;
+            margin-bottom: 5px;
+            margin-left: auto;
+          }            
+        }
       }          
     } 
 
@@ -140,12 +140,9 @@
     }       
 
     &__logout {
-      padding-left: 20px;
+      padding-left: 40px;
       border-left: solid 1px rgba( #fff ,0.2 );
       
-      a:before {
-        display: none;
-      }
     }       
     &__percentage{
       &:before{
