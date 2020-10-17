@@ -23,6 +23,11 @@ const routes = new Router({
       component: require('@/components/Category').default
     },
     {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: require('@/components/DashboardBase').default
+    },
+    {
       path: '/login',
       name: 'login',
       component: require('@/components/Login').default,

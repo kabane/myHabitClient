@@ -25,12 +25,14 @@ axios.defaults.withCredentials = true
 import authModule from './modules/auth'
 import todoModule from './modules/todo'
 import categoryModule from './modules/category'
+import todoSummaryModule from './modules/todo_summary'
 
 export default new Vuex.Store({
   modules: {
     todo: todoModule,
     category: categoryModule,
-    auth: authModule
+    auth: authModule,
+    todo_summary: todoSummaryModule
   },
   state: {
     config: {
