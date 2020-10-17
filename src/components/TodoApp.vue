@@ -158,13 +158,24 @@ style
 ******************/
 
 .main-todoapp { 
-  height: 100%;
+  padding-top: 90px;
+  min-height: calc( 100vh - 170px );
+  box-sizing: border-box;
   background-color: #fdfdfd;
+
+  @media screen and ( max-width: 640px ){
+    padding-top: 60px;
+    min-height: calc( 100vh - 110px );
+  }  
 }
 
 .alerts{
   padding: 0;
   margin: 0 0 40px 0px;
+
+  &:empty {
+    display: none;
+  }
 
   .alert{
     font-size: 1.5rem;
