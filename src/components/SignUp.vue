@@ -1,27 +1,30 @@
 <template>
-	<main class="main">
-    <div class="wrap">
-      <errors :errors="errors"></errors>
-        <div class="signup">
-          <label class="signup__column">
-            <span class="signup__column__label">EMAIL</span>
-            <input class="signup__mail" v-model="email" type="email">
-          </label>
-          <label class="signup__column">
-            <span class="signup__column__label">PASSWORD</span>
-            <input class="signup__pass" v-model="password" type="password">
-          </label>      
-          <label class="signup__column">
-            <span class="signup__column__label">PASSWORD <br>CONFIRM</span>
-            <input class="signup__pass" v-model="password_confirmation" type="password">
-          </label>     
-          <div class="signup__column buttons">
-            <button class="button button--primary" v-on:click="sign_up">新規登録して始める</button>
-            <router-link to="/login" exact>ログイン画面に戻る</router-link>
-          </div>           
-        </div>
-    </div>
-  </main>
+  <div>
+    <header-parts/>
+  	<main class="main-signup">
+      <div class="wrap">
+        <errors :errors="errors"></errors>
+          <div class="signup">
+            <label class="signup__column">
+              <span class="signup__column__label">EMAIL</span>
+              <input class="signup__mail" v-model="email" type="email">
+            </label>
+            <label class="signup__column">
+              <span class="signup__column__label">PASSWORD</span>
+              <input class="signup__pass" v-model="password" type="password">
+            </label>      
+            <label class="signup__column">
+              <span class="signup__column__label">PASSWORD <br>CONFIRM</span>
+              <input class="signup__pass" v-model="password_confirmation" type="password">
+            </label>     
+            <div class="signup__column buttons">
+              <button class="button button--primary" v-on:click="sign_up">新規登録して始める</button>
+              <router-link to="/login" exact>ログイン画面に戻る</router-link>
+            </div>           
+          </div>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
@@ -73,7 +76,7 @@
 <style lang="scss" scoped>
 
 
-.main {
+.main-signup {
  margin-top: 0;
  padding: 50px 20px ;
  background-color: #ffffff;

@@ -145,6 +145,7 @@
         background-color: $paleblue;
      }
     }
+    
     &:focus,
     &:active{
       background-color: $paleblue;
@@ -485,6 +486,19 @@
       transform: skewY(-1deg);
     }
   }
+}
+
+
+.main-todoapp { 
+  padding-top: 90px;
+  min-height: calc( 100vh - 170px );
+  box-sizing: border-box;
+  background-color: #fdfdfd;
+
+  @media screen and ( max-width: 640px ){
+    padding-top: 60px;
+    min-height: calc( 100vh - 110px );
+  }  
 }
 
 

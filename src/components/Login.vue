@@ -7,7 +7,7 @@
           <div class="signin">
             <label class="signin__column">
               <span class="signin__column__label">EMAIL</span>
-              <input class="signin__mail" v-model="email" type="email" autocomplete="on" autofocus>
+              <input class="signin__mail" v-model="email" type="email" autocomplete autofocus>
             </label>
             <label class="signin__column">
               <span class="signin__column__label">PASSWORD</span>

@@ -1,23 +1,26 @@
 <template>
-  <div :id="todo.id" class="todo">
-    <header class="todo__index">{{ todo.title }}</header>
-    <footer class="todo__footer">
-      <div class="todo__footer__col">
-        <ul class="todo__categories labels">
-          <li class="todo__category label label--category">
-            {{ this.categoryName() }}
-          </li>
-        </ul>
-        <p class="todo__elapsedTime">経過時間 <span class="elapsedTime">{{ secondStr }}</span></p>
-      </div>
-      <div class="todo__footer__col">
-        <div class="todo__buttons buttons">
-            <button class="button button--start startBtn" v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
-            <button class="button button--stop stopBtn" v-on:click="stop()" :disabled="isDisabedStopBtn()">中断</button>
-            <button class="button button--done doneBtn" v-on:click="done()">完了</button>
+  <div>
+    <header-parts/>
+    <div :id="todo.id" class="todo">
+      <header class="todo__index">{{ todo.title }}</header>
+      <footer class="todo__footer">
+        <div class="todo__footer__col">
+          <ul class="todo__categories labels">
+            <li class="todo__category label label--category">
+              {{ this.categoryName() }}
+            </li>
+          </ul>
+          <p class="todo__elapsedTime">経過時間 <span class="elapsedTime">{{ secondStr }}</span></p>
         </div>
-      </div>
-    </footer>
+        <div class="todo__footer__col">
+          <div class="todo__buttons buttons">
+              <button class="button button--start startBtn" v-on:click="start()" :disabled="isDisabedStartBtn()">開始</button>
+              <button class="button button--stop stopBtn" v-on:click="stop()" :disabled="isDisabedStopBtn()">中断</button>
+              <button class="button button--done doneBtn" v-on:click="done()">完了</button>
+          </div>
+        </div>
+      </footer>
+    </div>
   </div>
 </template>
 

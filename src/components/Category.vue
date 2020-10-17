@@ -1,46 +1,51 @@
 <template>
-	<main class="main">
-    <div class="wrap ">
-      <section class="appSection">
-        <h2 class="appSection__index">カテゴリー登録</h2>
-        <ul class="alerts">
-          <li class="todo" v-for="error in errors" v-bind:key=error.index>
-            {{error}}
-          </li>
-        </ul>
-        <section class="toCreateCategory childSection">
-          <h3 class="childSection__index">
-            入力して追加する
-          </h3>
-          <div class="inputRow">
-            <input type="text" name="name" placeholder="タスクの分類を入力してください（「アポ」「ランチ」…）" v-model="name">
-            <button class="button button--primary" v-on:click="add()">追加する</button>
-          </div>
-        </section>
-        <section class="createdCategory childSection">
-          <h3 class="childSection__index">
-            追加済みのカテゴリ
-          </h3>
-          <ul class="labels">
-            <li class="label label--category" v-for="(category) in this.getCategories" :key="category._id">
-              {{ category.name }}
+  <div>
+    <header-parts/>
+  	<main class="main main-todoapp">
+      <div class="wrap ">
+        <section class="appSection">
+          <h2 class="appSection__index">カテゴリー登録</h2>
+          <ul class="alerts">
+            <li class="todo" v-for="error in errors" v-bind:key=error.index>
+              {{error}}
             </li>
           </ul>
+          <section class="toCreateCategory childSection">
+            <h3 class="childSection__index">
+              入力して追加する
+            </h3>
+            <div class="inputRow">
+              <input type="text" name="name" placeholder="タスクの分類を入力してください（「アポ」「ランチ」…）" v-model="name">
+              <button class="button button--primary" v-on:click="add()">追加する</button>
+            </div>
+          </section>
+          <section class="createdCategory childSection">
+            <h3 class="childSection__index">
+              追加済みのカテゴリ
+            </h3>
+            <ul class="labels">
+              <li class="label label--category" v-for="(category) in this.getCategories" :key="category._id">
+                {{ category.name }}
+              </li>
+            </ul>
+          </section>
+          <footer class="appSection__footer">
+            <router-link to="/" class="backlink">タスク一覧に戻る</router-link>
+          </footer>
         </section>
-        <footer class="appSection__footer">
-          <router-link to="/" class="backlink">タスク一覧に戻る</router-link>
-        </footer>
-      </section>
-    </div>
-  </main>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
+  import HeaderParts from './common/HeaderParts'
   
   export default {
     name: 'category',
     components: {
+      HeaderParts
     },
     data: function () {
       return {
@@ -115,16 +120,13 @@
       margin-top: 0;
       font-size: 1em;
       font-weight: lighter;
+      font-weight: 600;
     }
   }
 
   .toCreateCategory{
 
     margin-top: 0;
-
-    .childSection__index{
-      padding-left: 20px;
-    }
 
     .inputRow{
       display: flex;
