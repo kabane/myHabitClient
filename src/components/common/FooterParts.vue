@@ -15,10 +15,16 @@
 <style lang="scss">
   /* CSS */
   .siteFooter{
-    margin-top: 100px;
-    line-height: 1;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
     color: #bababa;
+    
+    @media screen and ( max-width: 640px ){
+      height: 50px;
+    }
 
 
     span{
