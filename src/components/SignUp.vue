@@ -70,47 +70,9 @@
   }
 </script>
 
-
-<style lang="scss">
-html {
-  min-height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #F6FAFB url(/assets/img/logo-bg.svg);
-  background-size: cover;
-}
-
-#app {
-  width: 500px;
-  margin: auto;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-
-  @media screen and ( max-width: 768px ){
-    width: 500px;
-    flex-shrink: 0;
-  }
-  @media screen and ( max-width: 640px ){    
-    width: 320px;
-    flex-shrink: 0;
-  }
-} 
-
-.siteHeader {
-  position: relative;
-
-  .wrap {
-    justify-content: center;
-  }
-}
-
-.siteHeader__nav {
-  display: none;
-}
-</style>
 <style lang="scss" scoped>
+
+
 .main {
  margin-top: 0;
  padding: 50px 20px ;
