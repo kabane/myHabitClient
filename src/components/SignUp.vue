@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-parts/>
-  	<main class="main-signup">
+  	<main class="main-notlogin">
       <div class="wrap">
         <errors :errors="errors"></errors>
           <div class="signup">
@@ -17,10 +17,12 @@
               <span class="signup__column__label">PASSWORD <br>CONFIRM</span>
               <input class="signup__pass" v-model="password_confirmation" type="password">
             </label>     
-            <div class="signup__column buttons">
+            <div class="signup__column signup__column--button">
               <button class="button button--primary" v-on:click="sign_up">新規登録して始める</button>
-              <router-link to="/login" exact>ログイン画面に戻る</router-link>
             </div>           
+            <div class="signup__block">
+              <router-link to="/login" exact>ログイン画面に戻る</router-link>
+            </div>            
           </div>
       </div>
     </main>
@@ -30,11 +32,13 @@
 <script>
   import { mapGetters } from 'vuex'
   import Errors from './common/Errors.vue'
+  import HeaderParts from './common/HeaderParts'  
   
   export default {
     name: 'category',
     components: {
-      Errors
+      Errors,
+      HeaderParts
     },
     data: function () {
       return {
@@ -76,17 +80,6 @@
 <style lang="scss" scoped>
 
 
-.main-signup {
- margin-top: 0;
- padding: 50px 20px ;
- background-color: #ffffff;
-box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
-
-    @media screen and (max-width: 480px) {
-      padding: 20px 10px;
-    }
-}
-
 .signup{
   display: flex;
   flex-direction: column;
@@ -102,6 +95,12 @@ box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
       width: 95%;
       flex-direction: column;
     } 
+
+    &--button {
+      margin-top: 40px;
+      display: flex;
+      justify-content: center;
+    }
 
 
     &:not(:last-child){
@@ -164,7 +163,6 @@ box-shadow: 0 0 10px 3px rgba(0,0,0,0.1);
 }
 
 .signup__block {
-  margin-top: 20px;
   text-align: center;
 
   &__index {

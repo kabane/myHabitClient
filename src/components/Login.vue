@@ -13,14 +13,14 @@
               <span class="signin__column__label">PASSWORD</span>
               <input class="signin__pass" v-model="password" type="password">
             </label>
-            <div class="signin__column buttons">
+            <div class="signin__column signin__column--button">
               <button class="button button--primary" v-on:click="login">ログイン</button>
-              <div class="signup__block">
-                <div class="signup__block__index">
-                  ご登録がまだですか？
-                </div>
-                <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
+            </div>
+            <div class="signup__block">
+              <div class="signup__block__index">
+                ご登録がまだですか？
               </div>
+              <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
             </div>
           </div>
         </div>
@@ -70,34 +70,6 @@
 </script>
 
 <style lang="scss" scoped>
-.wrap {
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-.main-notlogin {
-  width: 500px;
-  margin-right: auto;
-  margin-left: auto;
-  overflow: hidden;
-  position: relative;
-  background-color: #ffffff;
-  box-shadow: 2px 9px 24px -10px rgba(0,0,0,0.1);
-
-    @media screen and (max-width: 480px) {
-      padding: 20px 10px;
-    }  
-
-  @media screen and ( max-width: 768px ){
-    width: 500px;
-  }
-  @media screen and ( max-width: 640px ){    
-    width: 320px;
-  }
-} 
-
-
-
 .signin{
   display: flex;
   flex-direction: column;
@@ -114,6 +86,11 @@
       flex-direction: column;
     } 
 
+    &--button {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }    
 
     &:not(:last-child){
       margin-bottom: 1em;
@@ -130,7 +107,6 @@
         margin-bottom: 5px;
       } 
     }
-    
   }
 
   .buttons {
@@ -175,7 +151,6 @@
 }
 
 .signup__block {
-  margin-top: 20px;
   text-align: center;
 
   &__index {
