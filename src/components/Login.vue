@@ -70,16 +70,6 @@
 </script>
 
 <style lang="scss" scoped>
-
-.login-window-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .wrap {
   padding-top: 50px;
   padding-bottom: 50px;
@@ -87,6 +77,8 @@
 
 .main-notlogin {
   width: 500px;
+  margin-right: auto;
+  margin-left: auto;
   overflow: hidden;
   position: relative;
   background-color: #ffffff;
