@@ -93,14 +93,14 @@
       background-size: cover;  
   }
   body{
-      padding-top: 90px;
-      margin: 0;
-      font-size: 1.6rem;
-      letter-spacing: 0.1rem;
+    padding-top: 90px;
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.1rem;
 
-      @media screen and ( max-width: 640px ){
-        padding-top: 0px;
-      }
+    @media screen and ( max-width: 640px ){
+      padding-top: 0px;
+    }
   }
   a,
   input,
@@ -156,7 +156,6 @@
   select{
     padding: 0 10px;
     -webkit-appearance: none;
-
     background: #fff url(assets/img/icon-select.svg) right 10px center no-repeat;
   }
 

@@ -75,6 +75,7 @@
   flex-direction: column;
   justify-content: center;
 
+
   &__column {
     width: 100%;
     display: flex;
@@ -148,6 +149,11 @@
       margin-left: 0;
     } 
   }
+
+  input {
+     font-family: 'Barlow', sans-serif;
+  }
+  
 }
 
 .signup__block {

@@ -160,6 +160,10 @@
       margin-left: 0;
     } 
   }
+
+  input {
+     font-family: 'Barlow', sans-serif;
+  }  
 }
 
 .signup__block {
