@@ -1,7 +1,6 @@
 <template>
-
   <div>
-    <header-parts/>
+    <HeaderParts/>
     <main class="main main-todoapp">
       <div class="wrap">
         <ul class="alerts">
@@ -46,15 +45,15 @@
               <doing-todo :prop_todo="todo" @error-catch="onErrorCatch"></doing-todo>
     				</li>
     			</ul>
-    	</section>
-      <section class="todo-done todolist todolist--done appSection">
-    			<h2 class="appSection__index">完了タスク一覧</h2>
-    			<ul class="todos">
-    				<li v-for="(todo) in this.getDoneTodos" :key="todo.id">
+        </section>
+        <section class="todo-done todolist todolist--done appSection">
+          <h2 class="appSection__index">完了タスク一覧</h2>
+          <ul class="todos">
+            <li v-for="(todo) in this.getDoneTodos" :key="todo.id">
               <done-todo :todo="todo"></done-todo>
-    				</li>
-    			</ul>
-    	</section>
+            </li>
+          </ul>
+        </section>
       </div>
     </main>
   </div>

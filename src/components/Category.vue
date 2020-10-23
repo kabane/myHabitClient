@@ -1,18 +1,18 @@
 <template>
   <div>
-    <header-parts/>
-  	<main class="main main-todoapp">
-      <div class="wrap ">
+    <HeaderParts/>
+    <main class="main main-todoapp">
+      <div class="wrap">
         <section class="appSection">
           <h2 class="appSection__index">カテゴリー登録</h2>
           <ul class="alerts">
             <li class="todo" v-for="error in errors" v-bind:key=error.index>
-              {{error}}
+            {{error}}
             </li>
           </ul>
           <section class="toCreateCategory childSection">
             <h3 class="childSection__index">
-              入力して追加する
+            入力して追加する
             </h3>
             <div class="inputRow">
               <input type="text" name="name" placeholder="タスクの分類を入力してください（「アポ」「ランチ」…）" v-model="name">
@@ -21,11 +21,11 @@
           </section>
           <section class="createdCategory childSection">
             <h3 class="childSection__index">
-              追加済みのカテゴリ
+            追加済みのカテゴリ
             </h3>
             <ul class="labels">
               <li class="label label--category" v-for="(category) in this.getCategories" :key="category._id">
-                {{ category.name }}
+              {{ category.name }}
               </li>
             </ul>
           </section>

@@ -1,30 +1,30 @@
 <template>
 	<div class="login-window-wrapper">
-    <header-parts />
+    <HeaderParts />
     <main class="main main-notlogin">
-        <div class="wrap">
-          <errors :errors="errors"></errors>
-          <div class="signin">
-            <label class="signin__column">
-              <span class="signin__column__label">EMAIL</span>
-              <input class="signin__mail" v-model="email" type="email" autocomplete autofocus>
-            </label>
-            <label class="signin__column">
-              <span class="signin__column__label">PASSWORD</span>
-              <input class="signin__pass" v-model="password" type="password">
-            </label>
-            <div class="signin__column signin__column--button">
-              <button class="button button--primary" v-on:click="login">ログイン</button>
+      <div class="wrap">
+        <errors :errors="errors"></errors>
+        <div class="signin">
+          <label class="signin__column">
+            <span class="signin__column__label">EMAIL</span>
+            <input class="signin__mail" v-model="email" type="email" autocomplete autofocus>
+          </label>
+          <label class="signin__column">
+            <span class="signin__column__label">PASSWORD</span>
+            <input class="signin__pass" v-model="password" type="password">
+          </label>
+          <div class="signin__column signin__column--button">
+            <button class="button button--primary" v-on:click="login">ログイン</button>
+          </div>
+          <div class="signup__block">
+            <div class="signup__block__index">
+              ご登録がまだですか？
             </div>
-            <div class="signup__block">
-              <div class="signup__block__index">
-                ご登録がまだですか？
-              </div>
-              <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
-            </div>
+            <router-link to="/sign_up" class="signup__block__link" exact>世界一かんたんなタスク管理を始めよう</router-link>
           </div>
         </div>
-      </main>
+      </div>
+    </main>
   </div>
 </template>
 
