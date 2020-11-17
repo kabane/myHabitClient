@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderParts/>
     <main class="main main-todoapp">
       <div class="wrap">
         <ul class="alerts">

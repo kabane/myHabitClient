@@ -1,6 +1,5 @@
 <template>
   <div>
-    <HeaderParts/>
     <div :id="todo.id" class="todo">
       <header class="todo__index">{{ todo.title }}</header>
       <footer class="todo__footer">

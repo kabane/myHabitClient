@@ -1,6 +1,5 @@
 <template>
 	<div class="login-window-wrapper">
-    <HeaderParts />
     <main class="main main-notlogin">
       <div class="wrap">
         <errors :errors="errors"></errors>

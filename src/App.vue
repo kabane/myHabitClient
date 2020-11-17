@@ -1,17 +1,26 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <div :class="{ siteHeadernotlogin: isAuthorized }">
+      <HeaderParts />
+      <router-view></router-view>
+    </div>
     <footer-parts/>
   </div>
 </template>
 
 <script>
   import FooterParts from './components/common/FooterParts.vue'
+  import HeaderParts from './components/common/HeaderParts.vue'
+  import {Mixin} from './components/mixins/auth.js'
+  import axios from 'axios'
+  import { mapGetters } from 'vuex'    
   
   export default {
     name: 'my-project',
+    mixins: [Mixin],
     components: {
-       FooterParts
+      HeaderParts,
+      FooterParts
     }
   }
 </script>
