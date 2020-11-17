@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div :class="{ siteHeadernotlogin: isAuthorized }">
+    <div :class="{ notlogin: isAuthorized }">
       <HeaderParts />
       <router-view></router-view>
     </div>
