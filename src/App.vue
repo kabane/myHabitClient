@@ -1,17 +1,23 @@
 <template>
   <div id="app">
-    <header-parts/>
-    <router-view></router-view>
+    <div :class="{ notlogin: isAuthorized }">
+      <HeaderParts />
+      <router-view></router-view>
+    </div>
     <footer-parts/>
   </div>
 </template>
 
 <script>
-  import HeaderParts from './components/common/HeaderParts.vue'
   import FooterParts from './components/common/FooterParts.vue'
+  import HeaderParts from './components/common/HeaderParts.vue'
+  import {Mixin} from './components/mixins/auth.js'
+  import axios from 'axios'
+  import { mapGetters } from 'vuex'    
   
   export default {
     name: 'my-project',
+    mixins: [Mixin],
     components: {
       HeaderParts,
       FooterParts
@@ -92,16 +98,18 @@
       font-size: 10px;
       font-weight: 300;
       font-family: 'Noto Sans JP', serif;
+      background: #F6FAFB;
+      background-size: cover;  
   }
   body{
-      padding-top: 90px;
-      margin: 0;
-      font-size: 1.6rem;
-      letter-spacing: 0.1em;
+    padding-top: 90px;
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 0.1rem;
 
-      @media screen and ( max-width: 640px ){
-        padding-top: 0px;
-      }
+    @media screen and ( max-width: 640px ){
+      padding-top: 0px;
+    }
   }
   a,
   input,
@@ -146,6 +154,7 @@
         background-color: $paleblue;
      }
     }
+
     &:focus,
     &:active{
       background-color: $paleblue;
@@ -156,7 +165,6 @@
   select{
     padding: 0 10px;
     -webkit-appearance: none;
-
     background: #fff url(assets/img/icon-select.svg) right 10px center no-repeat;
   }
 
@@ -235,7 +243,8 @@
 
   .button{
     width: 100px;
-    height: 40px;
+    min-width: 0;
+    height: 50px;
     padding: 0;
     line-height: 1;
     display: flex;
@@ -260,6 +269,7 @@
 }
 
 .button{
+  min-width: 220px;
   padding: 1em;
   display: flex;
   justify-content: center;
@@ -384,106 +394,43 @@
   /*******************
   module
   *******************/
-  .siteHeader {
-  height: 90px;
-  line-height: 1;
-  display: flex;
-  z-index: 10;
-  align-items: center;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  background: #6DB3BF;
-  background-image: linear-gradient(to left bottom, #4799B7, #7DC9DC);
+  
 
-  @media screen and ( max-width: 640px ){  
-    height: 60px;
-    position: relative;
-  }
-
-  .wrap {
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-     @media screen and ( max-width: 640px ){  
-      justify-content: center;
-    }
-  }
-
-
-    ///////// 戻るボタン
-  &__back{
-      display: none;
-      a{
-          width: 100%;
-          height: 100%;
-        display: block;
-      }
-        width: 15px;
-        height: 15px;
-        margin: auto;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        transform: rotate( 45deg );
-        border-left: 1px solid #fff;
-        border-bottom: 1px solid #fff;
-  }
-
-
-  &__logo {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
-
-  &:before {
-    content: " ";
-    width: 100%;
-    height: 100%;
-    transform-origin: center center;
-    transform: skewY(0.5deg);
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    left: 0;
-    background: #00D1E5;
-
-     @media screen and ( max-width: 640px ){  
-      transform: skewY(1deg);
-    }
-
-  }
-
-  &:after {
-    content: " ";
-    width: 100%;
-    height: 200%;
-    transform-origin: center center;
-    transform: skewY(-0.5deg);
-    position: absolute;
-    z-index: 1;
-    top: -100%;
-    right: 0;
-    left: 0;
-    background-image: linear-gradient(to right, #488DA7, #22556E);
-
-     @media screen and ( max-width: 640px ){  
-      transform: skewY(-1deg);
-    }
-  }
-}
-
-
-.main{
-  margin-top: $space_l;
+.main-todoapp { 
+  padding-top: 90px;
+  min-height: calc( 100vh - 170px );
+  box-sizing: border-box;
+  background-color: #fdfdfd;
 
   @media screen and ( max-width: 640px ){
-    margin-top: $space_l_sp;
+    padding-top: 60px;
+    min-height: calc( 100vh - 180px );
   }  
 }
+
+.main-notlogin {
+  width: 500px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-right: auto;
+  margin-left: auto;
+  overflow: hidden;
+  position: relative;
+  background-color: #ffffff;
+  box-shadow: 2px 9px 24px -10px rgba(0,0,0,0.1);
+
+  @media screen and (max-width: 480px) {
+    padding: 20px 10px;
+  }  
+
+  @media screen and ( max-width: 768px ){
+    width: 500px;
+  }
+  @media screen and ( max-width: 640px ){    
+    width: 320px;
+  }
+} 
+
+
+
 </style>

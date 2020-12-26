@@ -1,50 +1,134 @@
 <template>
-  <header id="header" class="siteHeader">
-      <div class="wrap">
-        <router-link tag="h1" class="siteHeader__logo" to="/" exact><a><img src="../../assets/img/logo.svg" alt="my HABIT -気の利く上司のようなタスク管理ツール"></a></router-link>
-        <nav class="siteHeader__nav">
-            <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__percentage" to="/dashboard" exact>タスク比率</router-link>
-            </div>
-            <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__task" to="/todos" exact>タスク一覧</router-link>
-            </div>
-            <div class="siteHeader__nav__link">
-              <router-link class="siteHeader__nav__category" to="/categories" exact>カテゴリ設定</router-link>
-            </div>
-            <div class="siteHeader__nav__link" v-if="isAuthorized">
-              <a v-on:click.prevent="logout">ログアウト</a>
-            </div>
-        </nav>
-      </div>
-  </header>    
+  <div>
+    <HeaderSignIn v-if="isAuthorized()" />
+    <HeaderSignOut v-else />
+  </div>
 </template>
 
 <script>
+  import HeaderSignIn from './HeaderPartsSignIn'
+  import HeaderSignOut from './HeaderPartsSignOut'
   import {Mixin} from '../mixins/auth.js'
   import axios from 'axios'
-  import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'  
   
   export default {
     name: 'header-parts',
     mixins:[Mixin],
-    methods: {
-      logout() {
-        this.$store.dispatch('auth/logout')
-        .then(function(res) {
-          this.$router.push({path: '/login'});
-        }.bind(this))
-        .catch(function (res) {
-          this.$router.push({path: '/login'});
-        }.bind(this))
-      }
+    components: {
+      HeaderSignIn,
+      HeaderSignOut
     }
   }
 </script>
 
 <style lang='scss'>
+.siteHeader {
+  width: 100%;
+  height: 90px;
+  line-height: 1;
+  display: flex;
+  z-index: 10;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: #6DB3BF;
+  background-image: linear-gradient(to left bottom, #4799B7, #7DC9DC);
+
+  @media screen and ( max-width: 640px ){  
+    height: 70px;
+    position: relative;
+  }
+
+  .wrap {
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+     @media screen and ( max-width: 640px ){  
+      justify-content: center;
+    }
+  }
+
+
+    ///////// 戻るボタン
+  &__back{
+      display: none;
+      a{
+          width: 100%;
+          height: 100%;
+        display: block;
+      }
+        width: 15px;
+        height: 15px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        transform: rotate( 45deg );
+        border-left: 1px solid #fff;
+        border-bottom: 1px solid #fff;
+  }
+
+  &__copy{
+    line-height: 1;
+    margin-top: 5px;
+    margin-bottom: 0rem;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+
+  &__logo {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &:before {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    transform: skewY(0.5deg);
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    left: 0;
+    background: #00D1E5;
+  }
+
+  &:after {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    // transform: skewY(-0.5deg);
+    position: absolute;
+    z-index: -1;
+    top: 0%;
+    right: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #488DA7, #22556E);
+  }
+}
+</style>
+<style lang='scss' scoped>
+
 
   .siteHeader{
+
+    &-notlogin {
+      position: relative;
+      max-width: 500px;
+      margin-right: auto;
+      margin-left: auto;
+    }
 
     .wrap{
       position: relative;
@@ -52,6 +136,17 @@
 
       @media screen and ( max-width: 768px ){
         z-index: 10;
+      }
+    }
+
+    &__logoarea {
+      line-height: 1;
+      text-align: center;
+
+      &__description {
+        margin-bottom: 1px;
+        font-size: 10px;
+        color: #ffffff;
       }
     }
 

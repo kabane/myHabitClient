@@ -1,62 +1,65 @@
 <template>
-  <main class="main">
-    <div class="wrap">
-      <ul class="alerts">
-        <li class="todo" v-for="error in errors" v-bind:key=error.index>
-          {{error}}
-        </li>
-      </ul>
-      <section class="todoform appSection">
-        <div class="inputTodo">
-          <div class="inputTodo__col">
-            <dl class="inputTodo__row">
-              <dt class="inputTodo__index">
-                タスク
-              </dt>
-              <dd class="inputTodo__content">
-                <input v-model="text" type="text" class="todo_form_field" placeholder="例：朝イチのメールチェック 呑み会の店の手配 etc…">
-              </dd>
-            </dl>
-            <dl class="inputTodo__row">
-              <dt class="inputTodo__index">
-                カテゴリ
-              </dt>
-              <dd class="inputTodo__content">
-                <select v-model="category_id">
-                  <option value=undefined selected>カテゴリー選択</option>
-                  <option v-for="(category) in categories" :key="category.id" :value="category.id">
-                    {{category.name}}
-                  </option>
-                </select>
-              </dd>
-            </dl>
+  <div>
+    <main class="main main-todoapp">
+      <div class="wrap">
+        <ul class="alerts">
+          <li class="todo" v-for="error in errors" v-bind:key=error.index>
+            {{error}}
+          </li>
+        </ul>
+        <section class="todoform appSection">
+          <div class="inputTodo">
+            <div class="inputTodo__col">
+              <dl class="inputTodo__row">
+                <dt class="inputTodo__index">
+                  タスク
+                </dt>
+                <dd class="inputTodo__content">
+                  <input v-model="text" type="text" class="todo_form_field" placeholder="例：朝イチのメールチェック 呑み会の店の手配 etc…">
+                </dd>
+              </dl>
+              <dl class="inputTodo__row">
+                <dt class="inputTodo__index">
+                  カテゴリ
+                </dt>
+                <dd class="inputTodo__content">
+                  <select v-model="category_id">
+                    <option value=undefined selected>カテゴリー選択</option>
+                    <option v-for="(category) in categories" :key="category.id" :value="category.id">
+                      {{category.name}}
+                    </option>
+                  </select>
+                </dd>
+              </dl>
+            </div>
+            <div class="inputTodo__col inputTodo__col--button">
+              <button class="button button--primary" v-on:click="add()">追加する</button>
+            </div>
           </div>
-          <div class="inputTodo__col inputTodo__col--button">
-            <button class="button button--primary" v-on:click="add()">追加する</button>
-          </div>
-        </div>
-      </section>
-      <section class="todo-active todolistSection todolistSection--active appSection">
-  			<h2 class="appSection__index">タスク一覧</h2>
-  			<ul class="todos">
-  				<li v-for="(todo) in this.getDoingTodos" :key="todo.id">
-            <doing-todo :prop_todo="todo" @error-catch="onErrorCatch"></doing-todo>
-  				</li>
-  			</ul>
-  	</section>
-    <section class="todo-done todolist todolist--done appSection">
-  			<h2 class="appSection__index">完了タスク一覧</h2>
-  			<ul class="todos">
-  				<li v-for="(todo) in this.getDoneTodos" :key="todo.id">
-            <done-todo :todo="todo"></done-todo>
-  				</li>
-  			</ul>
-  	</section>
-    </div>
-  </main>
+        </section>
+        <section class="todo-active todolistSection todolistSection--active appSection">
+    			<h2 class="appSection__index">タスク一覧</h2>
+    			<ul class="todos">
+    				<li v-for="(todo) in this.getDoingTodos" :key="todo.id">
+              <doing-todo :prop_todo="todo" @error-catch="onErrorCatch"></doing-todo>
+    				</li>
+    			</ul>
+        </section>
+        <section class="todo-done todolist todolist--done appSection">
+          <h2 class="appSection__index">完了タスク一覧</h2>
+          <ul class="todos">
+            <li v-for="(todo) in this.getDoneTodos" :key="todo.id">
+              <done-todo :todo="todo"></done-todo>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
+  import HeaderParts from './common/HeaderParts'
   import DoingTodo from './DoingTodo.vue'
   import DoneTodo from './DoneTodo.vue'
   import { mapGetters } from 'vuex'
@@ -64,6 +67,7 @@
   export default {
     name: 'todo-app',
     components: {
+      HeaderParts,
       DoingTodo,
       DoneTodo
     },
@@ -149,10 +153,13 @@ variables
 /******************
 style
 ******************/
-
 .alerts{
   padding: 0;
   margin: 0 0 40px 0px;
+
+  &:empty {
+    display: none;
+  }
 
   .alert{
     font-size: 1.5rem;
